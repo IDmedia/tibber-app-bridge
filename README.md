@@ -217,6 +217,7 @@ custom_components/tibber_app_bridge/
   binary_sensor.py  binary sensor descriptions
   diagnostics.py    redacted diagnostics
   strings.json, translations/, icons.json
+  brand/            integration icon (HA 2026.3+ shows it without the brands repo)
 tests/              pytest suite (no Home Assistant needed)
 examples/           ui-lovelace.yaml example, lovelace/tibber.yaml showcase view,
                     lovelace/button_card/ templates, lovelace/components/ cards
