@@ -1,0 +1,9 @@
+type: custom:button-card
+template: tibber_row
+entity: sensor.YOURHOME_consumption_this_month
+variables:
+  title: Used
+  icon: mdi:chart-bar
+  line1: '[[[ return variables.fmt(entity.state) + " kWh" ]]]'
+  line2: |
+    [[[ return "Electricity cost: " + variables.fmt(states["sensor.YOURHOME_cost_this_month"].state, 2) + " kr" ]]]

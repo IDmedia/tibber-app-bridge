@@ -1,0 +1,15 @@
+{
+  "domain": "tibber_app_bridge",
+  "name": "Tibber App Bridge (unofficial)",
+  "codeowners": [],
+  "config_flow": true,
+  "dependencies": [
+    "recorder"
+  ],
+  "documentation": "https://git.int.idmedia.no/home-assistant/tibber-app-bridge",
+  "integration_type": "hub",
+  "iot_class": "cloud_push",
+  "issue_tracker": "https://git.int.idmedia.no/home-assistant/tibber-app-bridge/issues",
+  "requirements": [],
+  "version": "0.2.0"
+}

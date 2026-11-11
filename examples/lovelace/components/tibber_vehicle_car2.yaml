@@ -1,0 +1,9 @@
+type: custom:button-card
+template: tibber_vehicle
+entity: sensor.YOURCAR2_battery_level
+variables:
+  name: Car 2
+  plugged_entity: binary_sensor.YOURCAR2_plugged_in
+  smart_entity: binary_sensor.YOURCAR2_smart_charging
+  power_entity: sensor.YOURCAR2_charge_power
+  target_entity: sensor.YOURCAR2_target_charge_level

@@ -1,0 +1,68 @@
+# Today's prices strip with "now" marker (app home card).
+#   entity: current price sensor (attributes.today)
+tibber_price_strip:
+  template: tibber_base
+  variables:
+    minor_unit: |
+      [[[
+        const cur = String(entity?.attributes?.unit_of_measurement || '').split('/')[0];
+        return ({ NOK: 'øre', SEK: 'öre', DKK: 'øre', EUR: 'ct' })[cur] || cur;
+      ]]]
+    level_color: |
+      [[[ return (l) => ({ cheap: 'var(--tibber-teal)', normal: 'var(--tibber-peach)', expensive: 'var(--tibber-orange)' })[l] || 'var(--tibber-track)'; ]]]
+  styles:
+    grid:
+      - grid-template-areas: '"slot title" "value value" "strip strip"'
+      - grid-template-columns: 1fr auto
+      - row-gap: 4px
+    custom_fields:
+      slot:
+        - justify-self: start
+        - color: var(--secondary-text-color)
+      title:
+        - color: var(--secondary-text-color)
+      value:
+        - justify-self: start
+      strip:
+        - justify-self: stretch
+        - padding-top: 10px
+  custom_fields:
+    slot: |
+      [[[
+        const s = entity?.attributes?.start;
+        if (!s) return '';
+        const start = new Date(s);
+        const res = entity.attributes.resolution === 'quarter_hourly' ? 15 : 60;
+        return `${variables.time(start)}-${variables.time(new Date(start.getTime() + res * 60000))}`;
+      ]]]
+    title: Today's prices
+    value: |
+      [[[
+        return `<span style="font-size:30px;font-weight:700">${variables.fmt(Number(entity?.state) * 100, 2)}</span>`
+          + `<span style="font-size:18px"> ${variables.minor_unit}</span>`;
+      ]]]
+    strip: |
+      [[[
+        const today = entity?.attributes?.today || [];
+        if (!today.length) return '';
+        const dayStart = new Date(today[0].start).getTime();
+        const span = 24 * 3600 * 1000;
+        const pos = (t) => Math.max(0, Math.min(100, (t - dayStart) / span * 100));
+        // Merge equal neighbouring levels into segments.
+        const segs = [];
+        today.forEach((p) => {
+          const last = segs[segs.length - 1];
+          if (last && last.level === p.level) last.end = new Date(p.start).getTime();
+          else segs.push({ level: p.level, start: new Date(p.start).getTime(), end: new Date(p.start).getTime() });
+        });
+        const step = (new Date(today[today.length - 1].start).getTime() - dayStart) / Math.max(today.length - 1, 1);
+        const bars = segs.map((s) => `<div style="position:absolute;top:0;bottom:0;left:${pos(s.start)}%;
+            width:calc(${pos(s.end + step) - pos(s.start)}% - 2px);background:${variables.level_color(s.level)};border-radius:3px"></div>`).join('');
+        const now = pos(Date.now());
+        const ticks = [0, 6, 12, 18, 24].map((h) => `<span style="position:absolute;left:${h / 24 * 100}%;
+            transform:translateX(-${h / 24 * 100}%)">${String(h % 24).padStart(2, '0')}</span>`).join('');
+        return `<div style="position:relative;height:6px;margin:6px 0 10px">${bars}
+            <div style="position:absolute;left:${now}%;top:-7px;width:8px;height:20px;transform:translateX(-50%);
+                 border-radius:4px;background:var(--tibber-orange);border:2px solid var(--card-background-color)"></div></div>
+          <div style="position:relative;height:18px;font-size:13px;color:var(--secondary-text-color)">${ticks}</div>`;
+      ]]]

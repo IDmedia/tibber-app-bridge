@@ -1,0 +1,25 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: horizontal-stack
+    cards:
+      - type: custom:button-card
+        template: tibber_phase
+        entity: sensor.YOURPULSE_current_l1
+        variables:
+          phase: L1
+          voltage_entity: sensor.YOURPULSE_voltage_l1
+          fuse_entity: sensor.YOURPULSE_main_fuse_size
+      - type: custom:button-card
+        template: tibber_phase
+        entity: sensor.YOURPULSE_current_l2
+        variables:
+          phase: L2
+          voltage_entity: sensor.YOURPULSE_voltage_l2
+          fuse_entity: sensor.YOURPULSE_main_fuse_size
+      - type: custom:button-card
+        template: tibber_phase
+        entity: sensor.YOURPULSE_current_l3
+        variables:
+          phase: L3
+          voltage_entity: sensor.YOURPULSE_voltage_l3
+          fuse_entity: sensor.YOURPULSE_main_fuse_size

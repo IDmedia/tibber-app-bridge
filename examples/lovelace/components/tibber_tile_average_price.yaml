@@ -1,0 +1,10 @@
+type: custom:button-card
+template: tibber_tile
+entity: sensor.YOURHOME_average_price_this_month
+variables:
+  label: Average price
+  decimals: 2
+  unit: kr
+grid_options:
+  columns: 4
+  rows: 2

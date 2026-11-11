@@ -1,0 +1,36 @@
+type: custom:apexcharts-card
+hours_12: false
+header:
+  show: true
+  title: Phase currents (24 h)
+  show_states: false
+graph_span: 24h
+apex_config:
+  chart:
+    height: 240
+    toolbar:
+      show: false
+  legend:
+    show: true
+    position: bottom
+  grid:
+    borderColor: rgba(127,127,127,0.25)
+yaxis:
+  - min: 0
+    decimals: 0
+series:
+  - entity: sensor.YOURPULSE_current_l1
+    name: L1
+    color: '#f08a3c'
+  - entity: sensor.YOURPULSE_current_l2
+    name: L2
+    color: '#24c3d6'
+  - entity: sensor.YOURPULSE_current_l3
+    name: L3
+    color: '#145c78'
+all_series_config:
+  stroke_width: 1.5
+  curve: smooth
+  group_by:
+    func: avg
+    duration: 5min

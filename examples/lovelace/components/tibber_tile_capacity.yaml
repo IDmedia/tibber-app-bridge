@@ -1,0 +1,10 @@
+type: custom:button-card
+template: tibber_tile
+entity: sensor.YOURHOME_average_of_3_highest_hours
+variables:
+  label: Capacity
+  decimals: 2
+  badge: mdi:transmission-tower
+grid_options:
+  columns: 4
+  rows: 2

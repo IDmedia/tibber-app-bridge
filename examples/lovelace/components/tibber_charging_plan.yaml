@@ -1,0 +1,35 @@
+# Smart charging plan of the car connected to the charger.
+type: custom:flex-table-card
+title: Charging plan
+entities:
+  include: sensor.YOURCHARGER_charger_status
+css:
+  # Title in the same size as the chart titles; rows without stripes.
+  ha-card: '--ha-card-header-font-size: 16px; --ha-card-header-color: var(--secondary-text-color);
+    --ha-font-weight-normal: 500; --ha-space-5: 12px; --ha-space-6: 4px'
+  'tbody tr:nth-child(odd)': 'background-color: transparent'
+  'tbody tr:nth-child(even)': 'background-color: transparent'
+  'tbody td': 'border-top: 1px solid var(--divider-color)'
+  'tbody td:first-child': 'white-space: nowrap'
+columns:
+  - name: From
+    data: plan.start
+    modify: >-
+      new Date(x).toLocaleString(undefined, { weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+  - name: To
+    data: plan.end
+    modify: >-
+      new Date(x).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+  - name: Type
+    data: plan.type
+    modify: >-
+      ({ charged: 'Charged', charging: 'Charging', planned: 'Planned', no_activity: 'Not charging',
+         grid_reward_paused: 'Paused (Grid Rewards)' })[x]
+      || String(x).replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase())
+  - name: kWh
+    data: plan.kwh
+    align: right
+  - name: Battery
+    data: plan.soc_to
+    align: right
+    modify: x + ' %'

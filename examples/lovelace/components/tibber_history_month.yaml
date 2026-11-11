@@ -1,0 +1,56 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURHOME_consumption_this_month
+    variables:
+      label: This month
+      icon: mdi:chart-bar
+      unit: kWh
+      secondary: |
+        [[[
+          const s = (id, d) => variables.fmt(states[id]?.state, d);
+          return `Cost: ${s("sensor.YOURHOME_cost_this_month", 2)} kr<br>
+            Expected for the whole month: ${s("sensor.YOURHOME_estimated_cost_this_month")} kr
+            (${s("sensor.YOURHOME_estimated_consumption_this_month")} kWh)`;
+        ]]]
+  - type: custom:apexcharts-card
+    hours_12: false
+    series:
+      # kWh per day, like the hourly and yearly charts next to it.
+      - type: column
+        entity: sensor.YOURHOME_consumption_this_month
+        name: This month
+        unit: kWh
+        color: '#145c78'
+        data_generator: |
+          // tibber: drop empty points
+          const points = (() => {
+            return (entity.attributes.series || []).map((i) => [new Date(i.start).getTime() + 43200000, i.kwh]);
+          })();
+          return points.filter((p) => p[1] !== null && p[1] !== undefined);
+    graph_span: 1month
+    span:
+      start: month
+    header:
+      show: false
+    apex_config:
+      chart:
+        height: 240
+        toolbar:
+          show: false
+        zoom:
+          enabled: false
+      grid:
+        borderColor: rgba(127,127,127,0.25)
+      legend:
+        show: false
+      plotOptions:
+        bar:
+          borderRadius: 3
+          columnWidth: 75%
+      dataLabels:
+        enabled: false
+    yaxis:
+      - min: 0
+        decimals: 0

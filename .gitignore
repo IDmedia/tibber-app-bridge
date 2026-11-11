@@ -1,0 +1,12 @@
+# HTTP captures contain credentials and tokens
+http-toolkit-export-*.json
+*.har
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Personal copies of the Lovelace examples (real entity ids)
+examples/lovelace/components_copy/
+examples/lovelace/button_card_copy/

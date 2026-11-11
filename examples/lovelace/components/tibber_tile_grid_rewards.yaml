@@ -1,0 +1,9 @@
+type: custom:button-card
+template: tibber_tile
+entity: sensor.YOURHOME_grid_rewards_this_month
+variables:
+  label: Grid Rewards
+  badge: mdi:battery-charging-wireless
+grid_options:
+  columns: 4
+  rows: 2

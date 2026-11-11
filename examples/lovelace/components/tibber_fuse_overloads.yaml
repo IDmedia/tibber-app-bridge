@@ -1,0 +1,26 @@
+type: custom:flex-table-card
+title: Overloads of main fuse
+entities:
+  include: sensor.YOURPULSE_last_fuse_overload
+columns:
+  - name: Time
+    data: overloads.start
+    modify: "new Date(x).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23'
+      })"
+  - name: Phase
+    data: overloads.phase
+  - name: Current
+    data: overloads.current
+    align: right
+    modify: Number(x).toFixed(1) + ' A'
+  - name: Fuse
+    data: overloads.fuse
+    align: right
+    modify: x + ' A'
+css:
+  # Title in the same size as the chart titles; rows without stripes.
+  ha-card: '--ha-card-header-font-size: 16px; --ha-card-header-color: var(--secondary-text-color);
+    --ha-font-weight-normal: 500; --ha-space-5: 12px; --ha-space-6: 4px'
+  'tbody tr:nth-child(odd)': 'background-color: transparent'
+  'tbody tr:nth-child(even)': 'background-color: transparent'
+  'tbody td': 'border-top: 1px solid var(--divider-color)'

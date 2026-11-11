@@ -1,0 +1,25 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: entities
+    title: Pulse status
+    entities:
+      - entity: binary_sensor.YOURPULSE_pulse_connected
+        name: Connection
+      - entity: sensor.YOURPULSE_wi_fi_signal
+        name: Wi-Fi signal
+      - entity: sensor.YOURPULSE_measurements_per_minute
+        name: Measurements per minute
+      - entity: binary_sensor.YOURPULSE_pulse_problem
+        name: Problems
+  # Only shown while the Wi-Fi signal is weak.
+  - type: conditional
+    conditions:
+      - condition: numeric_state
+        entity: sensor.YOURPULSE_wi_fi_signal
+        below: -80
+    card:
+      type: markdown
+      content: >-
+        **Weak Wi-Fi signal** ({{ states('sensor.YOURPULSE_wi_fi_signal') }} dBm).
+        Below about −80 dBm the Pulse can drop out; moving the Pulse Bridge or
+        the access point closer usually helps.

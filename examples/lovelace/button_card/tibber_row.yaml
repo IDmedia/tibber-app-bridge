@@ -1,0 +1,33 @@
+# Row with a small colored icon box, title and two lines (Analysis screen).
+#   variables: title, icon, line1, line2, nav (path)
+tibber_row:
+  template: tibber_base
+  variables:
+    title: ''
+    icon: mdi:chart-bar
+    line1: ''
+    line2: ''
+  styles:
+    grid:
+      - grid-template-areas: '"title title" "body body"'
+      - grid-template-columns: 1fr auto
+      - row-gap: 12px
+    custom_fields:
+      title:
+        - justify-self: start
+        - font-size: 16px
+        - font-weight: 500
+        - color: var(--secondary-text-color)
+      body:
+        - justify-self: stretch
+  custom_fields:
+    title: '[[[ return variables.title ]]]'
+    body: |
+      [[[
+        return `<div style="display:flex;gap:14px;align-items:center">
+          <div style="width:44px;height:44px;border-radius:10px;flex:none;display:flex;align-items:center;
+                      justify-content:center;background:color-mix(in srgb, var(--tibber-cyan) 30%, transparent)">
+            <ha-icon icon="${variables.icon}"></ha-icon></div>
+          <div style="text-align:left"><div style="font-size:20px;font-weight:700">${variables.line1}</div>
+            <div style="color:var(--secondary-text-color);white-space:normal">${variables.line2}</div></div></div>`;
+      ]]]

@@ -1,0 +1,37 @@
+# Horizontal comparison bars (Compared with others).
+#   entity: comparison sensor; variables: home_label
+tibber_compare_bars:
+  template: tibber_base
+  variables:
+    title: Compared with others
+    home_label: Your home
+  styles:
+    grid:
+      - grid-template-areas: '"title title" "bars bars"'
+      - grid-template-columns: 1fr auto
+      - row-gap: 12px
+    custom_fields:
+      title:
+        - justify-self: start
+        - font-size: 16px
+        - font-weight: 500
+        - color: var(--secondary-text-color)
+      bars:
+        - justify-self: stretch
+  custom_fields:
+    title: '[[[ return variables.title ]]]'
+    bars: |
+      [[[
+        const a = entity?.attributes || {};
+        const rows = [
+          ['Most efficient homes', a.efficient_kwh, 'var(--secondary-text-color)'],
+          ['Average homes', a.average_kwh, 'var(--secondary-text-color)'],
+          [variables.home_label, a.home_kwh, 'var(--tibber-cyan)'],
+        ];
+        const max = Math.max(...rows.map((r) => Number(r[1]) || 0), 1);
+        return rows.map(([label, v, color]) => `
+          <div style="display:flex;justify-content:space-between;margin-top:10px"><span>${label}</span>
+            <span>${variables.fmt(v)} kWh</span></div>
+          <div style="height:12px;border-radius:3px;background:var(--tibber-track);margin-top:4px">
+            <div style="height:100%;width:${(Number(v) || 0) / max * 100}%;border-radius:3px;background:${color}"></div></div>`).join('');
+      ]]]

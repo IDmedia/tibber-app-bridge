@@ -1,0 +1,10 @@
+type: custom:button-card
+template: tibber_tile
+entity: sensor.YOURCAR1_battery_level
+variables:
+  label: Car 1
+  unit: '%'
+  badge: mdi:car-electric
+grid_options:
+  columns: 6
+  rows: 2

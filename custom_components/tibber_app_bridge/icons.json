@@ -1,0 +1,201 @@
+{
+  "entity": {
+    "sensor": {
+      "current_price": {
+        "default": "mdi:cash-clock"
+      },
+      "next_price": {
+        "default": "mdi:cash-fast"
+      },
+      "price_level": {
+        "default": "mdi:gauge",
+        "state": {
+          "cheap": "mdi:gauge-low",
+          "normal": "mdi:gauge",
+          "expensive": "mdi:gauge-full"
+        }
+      },
+      "today_min_price": {
+        "default": "mdi:arrow-down-bold"
+      },
+      "today_max_price": {
+        "default": "mdi:arrow-up-bold"
+      },
+      "today_avg_price": {
+        "default": "mdi:approximately-equal"
+      },
+      "tomorrow_min_price": {
+        "default": "mdi:arrow-down-bold-outline"
+      },
+      "tomorrow_max_price": {
+        "default": "mdi:arrow-up-bold-outline"
+      },
+      "tomorrow_avg_price": {
+        "default": "mdi:approximately-equal"
+      },
+      "month_spot_price": {
+        "default": "mdi:chart-line"
+      },
+      "today_cost": {
+        "default": "mdi:cash"
+      },
+      "month_cost": {
+        "default": "mdi:cash"
+      },
+      "month_estimated_cost": {
+        "default": "mdi:cash-plus"
+      },
+      "previous_month_cost": {
+        "default": "mdi:cash"
+      },
+      "year_cost": {
+        "default": "mdi:cash"
+      },
+      "year_estimated_cost": {
+        "default": "mdi:cash-plus"
+      },
+      "last_year_cost": {
+        "default": "mdi:cash"
+      },
+      "top3_hourly_average": {
+        "default": "mdi:podium"
+      },
+      "capacity_step": {
+        "default": "mdi:stairs"
+      },
+      "average_price_month": {
+        "default": "mdi:scale-balance"
+      },
+      "average_price_year": {
+        "default": "mdi:scale-balance"
+      },
+      "comparison_month": {
+        "default": "mdi:home-group"
+      },
+      "comparison_year": {
+        "default": "mdi:home-group"
+      },
+      "consumption_breakdown": {
+        "default": "mdi:chart-donut"
+      },
+      "grid_reward_status": {
+        "default": "mdi:transmission-tower",
+        "state": {
+          "available": "mdi:transmission-tower-import",
+          "delivering": "mdi:transmission-tower-export",
+          "unavailable": "mdi:transmission-tower-off"
+        }
+      },
+      "grid_rewards_month": {
+        "default": "mdi:gift"
+      },
+      "grid_rewards_year": {
+        "default": "mdi:gift"
+      },
+      "grid_rewards_total": {
+        "default": "mdi:gift"
+      },
+      "charging_average_price": {
+        "default": "mdi:ev-station"
+      },
+      "hourly_consumption_limit": {
+        "default": "mdi:speedometer"
+      },
+      "peak_control_status": {
+        "default": "mdi:car-speed-limiter"
+      },
+      "peak_control_state": {
+        "default": "mdi:car-speed-limiter"
+      },
+      "last_fuse_overload": {
+        "default": "mdi:fuse-alert"
+      },
+      "fuse_overloads_30d": {
+        "default": "mdi:fuse-alert"
+      },
+      "main_fuse_size": {
+        "default": "mdi:fuse"
+      },
+      "pulse_measurements_per_minute": {
+        "default": "mdi:pulse"
+      },
+      "estimated_consumption_current_hour": {
+        "default": "mdi:clock-fast"
+      },
+      "phase_load_l1": {
+        "default": "mdi:sine-wave"
+      },
+      "phase_load_l2": {
+        "default": "mdi:sine-wave"
+      },
+      "phase_load_l3": {
+        "default": "mdi:sine-wave"
+      },
+      "flex_grid_reward_state": {
+        "default": "mdi:transmission-tower"
+      },
+      "vehicle_charging_status": {
+        "default": "mdi:car-electric"
+      },
+      "vehicle_charge_state": {
+        "default": "mdi:battery-charging"
+      },
+      "vehicle_target_soc": {
+        "default": "mdi:battery-arrow-up"
+      },
+      "vehicle_departure": {
+        "default": "mdi:clock-end"
+      },
+      "vehicle_session_cost": {
+        "default": "mdi:cash"
+      },
+      "vehicle_session_average_price": {
+        "default": "mdi:scale-balance"
+      },
+      "charger_month_cost": {
+        "default": "mdi:cash"
+      },
+      "charger_month_price": {
+        "default": "mdi:scale-balance"
+      },
+      "charger_status": {
+        "default": "mdi:ev-station"
+      },
+      "charger_charging_status": {
+        "default": "mdi:ev-plug-type2"
+      },
+      "charger_max_current": {
+        "default": "mdi:current-ac"
+      },
+      "capacity_peak_threshold": {
+        "default": "mdi:chart-bell-curve-cumulative"
+      },
+      "cheapest_window": {
+        "default": "mdi:clock-check-outline"
+      }
+    },
+    "binary_sensor": {
+      "load_balancing": {
+        "default": "mdi:scale-unbalanced",
+        "state": {
+          "on": "mdi:scale-balance"
+        }
+      },
+      "peak_control": {
+        "default": "mdi:car-speed-limiter"
+      },
+      "smart_charging": {
+        "default": "mdi:lightning-bolt-outline",
+        "state": {
+          "on": "mdi:lightning-bolt"
+        }
+      },
+      "charger_load_balancing": {
+        "default": "mdi:scale-unbalanced",
+        "state": {
+          "on": "mdi:scale-balance"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+type: custom:flex-table-card
+title: Highest hours this month
+entities:
+  include: sensor.YOURHOME_average_of_3_highest_hours
+columns:
+  - name: Day
+    data: peaks.start
+    modify: "new Date(x).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })"
+  - name: Hour
+    data: peaks.start
+    modify: "new Date(x).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })"
+  - name: kWh
+    data: peaks.kwh
+    align: right
+    modify: Number(x).toFixed(2)
+css:
+  # Title in the same size as the chart titles; rows without stripes.
+  ha-card: '--ha-card-header-font-size: 16px; --ha-card-header-color: var(--secondary-text-color);
+    --ha-font-weight-normal: 500; --ha-space-5: 12px; --ha-space-6: 4px'
+  'tbody tr:nth-child(odd)': 'background-color: transparent'
+  'tbody tr:nth-child(even)': 'background-color: transparent'
+  'tbody td': 'border-top: 1px solid var(--divider-color)'

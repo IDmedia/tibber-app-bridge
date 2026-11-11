@@ -1,0 +1,76 @@
+type: conditional
+conditions:
+  - condition: state
+    entity: sensor.YOURHOME_tomorrow_average_price
+    state_not: unknown
+  - condition: state
+    entity: sensor.YOURHOME_tomorrow_average_price
+    state_not: unavailable
+card:
+  type: custom:apexcharts-card
+  hours_12: false
+  header:
+    show: true
+    title: Tomorrow
+    show_states: false
+  graph_span: 24h
+  span:
+    start: day
+    offset: +1d
+  stacked: true
+  apex_config:
+    chart:
+      height: 240
+      toolbar:
+        show: false
+      zoom:
+        enabled: false
+    grid:
+      borderColor: rgba(127,127,127,0.25)
+    legend:
+      show: false
+    plotOptions:
+      bar:
+        borderRadius: 2
+        columnWidth: 85%
+    dataLabels:
+      enabled: false
+    tooltip:
+      shared: false
+      intersect: true
+      x:
+        format: HH:mm
+  yaxis:
+    - min: 0
+      decimals: 0
+      apex_config:
+        title:
+          text: øre/kWh
+  series:
+    - type: column
+      entity: sensor.YOURHOME_current_price
+      name: Cheap
+      color: '#23b8a6'
+      unit: øre
+      data_generator: |
+        const level = 'cheap';
+        const all = [...(entity.attributes.today || []), ...(entity.attributes.tomorrow || [])];
+        return all.map((p) => [new Date(p.start).getTime(), p.level === level ? Math.round(p.price * 10000) / 100 : null]);
+    - type: column
+      entity: sensor.YOURHOME_current_price
+      name: Normal
+      color: '#e9b99a'
+      unit: øre
+      data_generator: |
+        const level = 'normal';
+        const all = [...(entity.attributes.today || []), ...(entity.attributes.tomorrow || [])];
+        return all.map((p) => [new Date(p.start).getTime(), p.level === level ? Math.round(p.price * 10000) / 100 : null]);
+    - type: column
+      entity: sensor.YOURHOME_current_price
+      name: Expensive
+      color: '#f08a3c'
+      unit: øre
+      data_generator: |
+        const level = 'expensive';
+        const all = [...(entity.attributes.today || []), ...(entity.attributes.tomorrow || [])];
+        return all.map((p) => [new Date(p.start).getTime(), p.level === level ? Math.round(p.price * 10000) / 100 : null]);

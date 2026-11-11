@@ -1,0 +1,21 @@
+type: custom:button-card
+template: tibber_stat
+entity: sensor.YOURHOME_cheapest_3_hours
+variables:
+  label: Cheapest 3 hours
+  icon: mdi:clock-check-outline
+  unit: ''
+  value: |
+    [[[
+      const a = entity?.attributes || {};
+      if (!entity || !a.end) return '–';
+      const start = new Date(entity.state);
+      const day = start.toDateString() === new Date().toDateString() ? '' : ' tomorrow';
+      return `${variables.time(entity.state)}–${variables.time(a.end)}${day}`;
+    ]]]
+  secondary: |
+    [[[
+      const a = entity?.attributes || {};
+      if (a.average_price == null) return 'Waiting for prices';
+      return `Average ${variables.fmt(a.average_price * 100, 0)} øre/kWh`;
+    ]]]

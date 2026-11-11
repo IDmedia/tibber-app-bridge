@@ -1,0 +1,16 @@
+type: entities
+title: Year over year
+entities:
+  - entity: sensor.YOURHOME_consumption_this_year
+    name: Consumption this year
+  - entity: sensor.YOURHOME_cost_this_year
+    name: Cost this year
+  - entity: sensor.YOURHOME_consumption_last_year
+    name: Consumption last year
+  - entity: sensor.YOURHOME_cost_last_year
+    name: Cost last year
+  - type: divider
+  - entity: sensor.YOURHOME_consumption_last_month
+    name: Consumption last month
+  - entity: sensor.YOURHOME_cost_last_month
+    name: Cost last month

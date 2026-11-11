@@ -1,0 +1,41 @@
+type: custom:apexcharts-card
+hours_12: false
+header:
+  show: true
+  title: Grid Rewards this month
+  show_states: false
+graph_span: 1month
+span:
+  start: month
+apex_config:
+  chart:
+    height: 240
+    toolbar:
+      show: false
+    zoom:
+      enabled: false
+  grid:
+    borderColor: rgba(127,127,127,0.25)
+  legend:
+    show: false
+  plotOptions:
+    bar:
+      borderRadius: 3
+      columnWidth: 75%
+  dataLabels:
+    enabled: false
+yaxis:
+  - min: 0
+    decimals: 1
+series:
+  - type: column
+    entity: sensor.YOURHOME_grid_rewards_this_month
+    name: Rewards
+    unit: kr
+    color: '#23b8a6'
+    data_generator: |
+      // tibber: drop empty points
+      const points = (() => {
+        return (entity.attributes.series || []).map((i) => [new Date(i.start).getTime() + 43200000, i.total]);
+      })();
+      return points.filter((p) => p[1] !== null && p[1] !== undefined);

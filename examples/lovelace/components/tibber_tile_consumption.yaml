@@ -1,0 +1,8 @@
+type: custom:button-card
+template: tibber_tile
+entity: sensor.YOURHOME_cost_this_month
+variables:
+  label: Consumption
+grid_options:
+  columns: 4
+  rows: 2

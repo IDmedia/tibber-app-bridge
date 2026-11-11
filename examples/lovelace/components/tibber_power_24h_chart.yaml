@@ -1,0 +1,36 @@
+type: custom:apexcharts-card
+hours_12: false
+graph_span: 24h
+series:
+  - type: area
+    entity: sensor.YOURPULSE_power
+    name: Power
+    color: '#23b8a6'
+    stroke_width: 2
+    opacity: 0.25
+    group_by:
+      func: avg
+      duration: 5min
+header:
+  show: true
+  title: Last 24 hours
+  show_states: false
+apex_config:
+  chart:
+    height: 240
+    toolbar:
+      show: false
+    zoom:
+      enabled: false
+  grid:
+    borderColor: rgba(127,127,127,0.25)
+  legend:
+    show: false
+  tooltip:
+    x:
+      format: HH:mm:ss
+yaxis:
+  - min: 0
+    decimals: 0
+    apex_config:
+      tickAmount: 3

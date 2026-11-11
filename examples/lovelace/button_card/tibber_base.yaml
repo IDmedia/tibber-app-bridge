@@ -1,0 +1,64 @@
+# Reusable custom:button-card templates for Tibber App Bridge.
+#
+# Colors use Home Assistant theme variables for text/background, so the cards
+# follow light and dark themes. Only the Tibber accent colors are fixed and
+# exposed as CSS variables you can override in a theme:
+#   --tibber-teal, --tibber-cyan, --tibber-blue, --tibber-orange, --tibber-peach
+
+tibber_base:
+  show_icon: false
+  show_name: false
+  show_state: false
+  show_label: false
+  tap_action:
+    action: more-info
+  styles:
+    card:
+      - border-radius: var(--ha-card-border-radius, 20px)
+      - padding: 16px
+      # Quoted: an unquoted " #" would start a YAML comment.
+      - --tibber-teal: 'var(--tibber-teal-color, #23b8a6)'
+      - --tibber-cyan: 'var(--tibber-cyan-color, #24c3d6)'
+      - --tibber-blue: 'var(--tibber-blue-color, #145c78)'
+      - --tibber-orange: 'var(--tibber-orange-color, #f08a3c)'
+      - --tibber-peach: 'var(--tibber-peach-color, #e9b99a)'
+      - --tibber-track: 'rgba(127, 127, 127, 0.22)'
+      - color: var(--primary-text-color)
+    grid:
+      - grid-template-areas: none
+  # button-card sizes every ha-icon to 100% of its cell; icons in our custom
+  # fields get a normal size instead (override per icon with an inline
+  # style="--mdc-icon-size: 40px").
+  extra_styles: |
+    #container ha-icon {
+      --mdc-icon-size: var(--tibber-icon-size, 24px);
+      width: auto;
+      height: auto;
+      margin: 0;
+    }
+  variables:
+    # Shared JS helpers (button-card evaluates variables in order).
+    fmt: |
+      [[[
+        return (value, decimals = 0) => {
+          if (value === null || value === undefined || value === '') return '–';
+          if (['unknown', 'unavailable'].includes(value)) return '–';
+          const n = Number(value);
+          if (isNaN(n)) return String(value);
+          return n.toLocaleString(hass.locale?.language || 'en',
+            { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+        };
+      ]]]
+    money_unit: |
+      [[[
+        return (unit) => {
+          const cur = String(unit || '').split('/')[0];
+          return ({ NOK: 'kr', SEK: 'kr', DKK: 'kr', EUR: '€' })[cur] || cur;
+        };
+      ]]]
+    time: |
+      [[[
+        return (iso) => iso
+          ? new Date(iso).toLocaleTimeString(hass.locale?.language || 'en', { hour: '2-digit', minute: '2-digit', hourCycle: 'h23' })
+          : '–';
+      ]]]

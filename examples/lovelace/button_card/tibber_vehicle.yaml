@@ -1,0 +1,57 @@
+# Vehicle row: name, plugged in, smart charging (Grid Rewards screen).
+#   entity: vehicle battery level sensor; variables: name, plugged_entity, smart_entity
+tibber_vehicle:
+  template: tibber_base
+  variables:
+    name: ''
+    plugged_entity: null
+    smart_entity: null
+    power_entity: null
+    target_entity: null
+  styles:
+    grid:
+      - grid-template-areas: '"pic info chevron"'
+      - grid-template-columns: 72px 1fr auto
+      - column-gap: 16px
+    custom_fields:
+      pic:
+        - width: 72px
+        - height: 72px
+        - border-radius: 12px
+        - display: flex
+        - align-items: center
+        - justify-content: center
+        - --mdc-icon-size: 40px
+        - background: color-mix(in srgb, var(--tibber-orange) 18%, transparent)
+      info:
+        - justify-self: start
+        - text-align: left
+        - white-space: normal
+        - min-width: 0
+      chevron:
+        - color: var(--secondary-text-color)
+  custom_fields:
+    pic: '<ha-icon icon="mdi:car-electric" style="--mdc-icon-size: 40px"></ha-icon>'
+    chevron: '<ha-icon icon="mdi:chevron-right"></ha-icon>'
+    info: |
+      [[[
+        const line = (on, onText, offText) => {
+          const ok = on === 'on';
+          return `<div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+            <ha-icon icon="${ok ? 'mdi:check-circle' : 'mdi:close-circle'}"
+              style="--mdc-icon-size:20px;color:${ok ? 'var(--tibber-cyan)' : 'var(--error-color)'}"></ha-icon>
+            ${ok ? onText : offText}</div>`;
+        };
+        const plugged = states[variables.plugged_entity]?.state;
+        const smart = states[variables.smart_entity]?.state;
+        return `<div style="font-size:20px;font-weight:700">${variables.name}</div>
+          ${line(plugged, 'Plugged in', 'Not plugged in')}
+          ${line(smart, 'Smart charging on', 'Smart charging off')}
+          <div style="margin-top:4px;color:var(--secondary-text-color)">${(() => {
+            const kw = Number(states[variables.power_entity]?.state);
+            const target = states[variables.target_entity]?.state;
+            const soc = `Battery ${variables.fmt(entity?.state)} %${target && !isNaN(target) ? ' → ' + target + ' %' : ''}`;
+            return kw > 0 ? `<ha-icon icon="mdi:lightning-bolt" style="--mdc-icon-size:16px;color:var(--tibber-teal)"></ha-icon>
+              Charging ${variables.fmt(kw, 1)} kW · ${soc}` : soc;
+          })()}</div>`;
+      ]]]

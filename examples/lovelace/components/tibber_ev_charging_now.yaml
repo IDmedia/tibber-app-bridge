@@ -1,0 +1,36 @@
+type: grid
+columns: 2
+square: false
+cards:
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURCHARGER_charge_power
+    variables:
+      label: Charger
+      icon: mdi:ev-station
+      decimals: 1
+      unit: kW
+      secondary: |
+        [[[ return states["sensor.YOURCHARGER_charger_status"]?.state || "" ]]]
+  # Session of whichever car is connected to the charger.
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURCHARGER_charger_status
+    variables:
+      label: |
+        [[[ const v = entity?.attributes?.vehicle; return v ? `${v} session` : 'Charging session'; ]]]
+      icon: mdi:battery-charging
+      decimals: 2
+      unit: kWh
+      value: '[[[ return entity?.attributes?.session_kwh ]]]'
+      secondary: |
+        [[[
+          const a = entity?.attributes || {};
+          if (!a.vehicle) return 'No car connected';
+          const parts = [`${variables.fmt(a.session_cost, 2)} kr`];
+          if (a.vehicle_battery_level != null) {
+            parts.push(`${a.vehicle_battery_level} %` + (a.vehicle_target_soc ? ` → ${a.vehicle_target_soc} %` : ''));
+          }
+          if (a.vehicle_departure) parts.push(`ready ${variables.time(a.vehicle_departure)}`);
+          return parts.join(' · ');
+        ]]]

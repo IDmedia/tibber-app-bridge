@@ -1,0 +1,24 @@
+type: custom:button-card
+template: tibber_stat
+entity: sensor.YOURPULSE_estimated_consumption_this_hour
+variables:
+  label: This hour (estimated)
+  icon: mdi:clock-fast
+  decimals: 2
+  unit: kWh
+  secondary: |
+    [[[
+      const s = (id) => states[id]?.state;
+      const so_far = variables.fmt(s("sensor.YOURPULSE_consumption_this_hour"), 2);
+      const threshold = Number(s("sensor.YOURHOME_peak_threshold_this_hour"));
+      const limit = Number(s("sensor.YOURPULSE_hourly_consumption_limit"));
+      const estimate = Number(entity?.state);
+      const lines = [`So far ${so_far} kWh`];
+      if (!isNaN(threshold)) {
+        lines.push(estimate > threshold
+          ? `<b style="color:var(--tibber-orange)">New monthly peak</b> (above ${variables.fmt(threshold, 2)} kWh)`
+          : `New peak above ${variables.fmt(threshold, 2)} kWh`);
+      }
+      if (!isNaN(limit)) lines.push(`Hourly limit ${variables.fmt(limit, 1)} kWh`);
+      return lines.join('<br>');
+    ]]]

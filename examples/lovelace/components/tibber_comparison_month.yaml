@@ -1,0 +1,10 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: custom:button-card
+    template: tibber_rating
+    entity: sensor.YOURHOME_compared_with_similar_homes_this_month
+  - type: custom:button-card
+    template: tibber_compare_bars
+    entity: sensor.YOURHOME_compared_with_similar_homes_this_month
+    variables:
+      title: This month

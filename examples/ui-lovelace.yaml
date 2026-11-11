@@ -1,0 +1,20 @@
+# Example ui-lovelace.yaml (YAML-mode default dashboard) with the Tibber showcase view.
+#
+# Layout in your config folder:
+#   ui-lovelace.yaml
+#   lovelace/tibber.yaml           the showcase view
+#   lovelace/components/*.yaml     one card per file (included by the view)
+#   lovelace/button_card/*.yaml    one button-card template per file
+#
+# Paths in !include are relative to the file that contains them: this file
+# points into lovelace/, and tibber.yaml points to components/ next to it.
+
+title: Home
+
+# All templates in lovelace/button_card/ (yours and the tibber_* ones).
+button_card_templates: !include_dir_merge_named lovelace/button_card/
+
+views:
+  # ... your own views, e.g.
+  # - !include lovelace/power.yaml
+  - !include lovelace/tibber.yaml

@@ -1,0 +1,47 @@
+# Vertical phase bar: "1.4 A / 40 A", bar, "L1: 242 V".
+#   entity: phase current; variables: phase, voltage_entity, fuse_entity
+tibber_phase:
+  template: tibber_base
+  tap_action:
+    action: more-info
+  variables:
+    phase: L1
+    voltage_entity: null
+    fuse_entity: null
+  styles:
+    card:
+      - background: none
+      - box-shadow: none
+      - border: none
+      - padding: 0 4px
+    grid:
+      - grid-template-areas: '"top" "bar" "bottom"'
+      - row-gap: 8px
+    custom_fields:
+      top:
+        - font-weight: 600
+        - white-space: nowrap
+      bottom:
+        - color: var(--secondary-text-color)
+        - font-weight: 500
+  custom_fields:
+    top: |
+      [[[
+        const fuse = Number(states[variables.fuse_entity]?.state);
+        return `${variables.fmt(entity?.state, 1)} A <span style="color:var(--secondary-text-color)">/ ${variables.fmt(fuse)} A</span>`;
+      ]]]
+    bar: |
+      [[[
+        const fuse = Number(states[variables.fuse_entity]?.state) || 1;
+        const pct = Math.max(0, Math.min(100, Number(entity?.state) / fuse * 100 || 0));
+        const color = pct >= 100 ? 'var(--error-color)' : pct >= 80 ? 'var(--tibber-orange)' : 'var(--tibber-teal)';
+        return `<div style="height:110px;width:100%;max-width:120px;margin:auto;border-radius:14px 14px 0 0;
+                    background:var(--tibber-track);position:relative;overflow:hidden">
+          <div style="position:absolute;bottom:0;left:0;right:0;height:${pct}%;min-height:4px;
+                      background:${color};transition:height .6s"></div></div>`;
+      ]]]
+    bottom: |
+      [[[
+        const v = variables.voltage_entity ? states[variables.voltage_entity]?.state : null;
+        return `${variables.phase}: ${variables.fmt(v)} V`;
+      ]]]

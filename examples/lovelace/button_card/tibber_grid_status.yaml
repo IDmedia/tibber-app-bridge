@@ -1,0 +1,45 @@
+# Grid Rewards status banner ("Not ready to contribute yet").
+#   entity: grid rewards status sensor
+tibber_grid_status:
+  template: tibber_base
+  variables:
+    labels: |
+      [[[ return { available: 'Ready to contribute', delivering: 'Contributing to the grid',
+                   unavailable: 'Not ready to contribute yet', unknown: 'Status unknown' }; ]]]
+    # Readable text for the API's reason codes; codes not listed here (like the
+    # generic "noFlex") are not shown.
+    reasons: |
+      [[[ return { noVehiclesPluggedIn: 'No vehicles plugged in',
+                   noFlexVehicleFullyCharged: 'The car is fully charged' }; ]]]
+  styles:
+    grid:
+      - grid-template-areas: '"text badge"'
+      - grid-template-columns: 1fr auto
+    custom_fields:
+      text:
+        - justify-self: start
+        - padding-right: 12px
+        - text-align: left
+      badge:
+        - width: 56px
+        - height: 56px
+        - border-radius: 50%
+        - display: flex
+        - align-items: center
+        - justify-content: center
+        - --mdc-icon-size: 28px
+        - background: |
+            [[[ return entity?.state === 'unavailable' ? 'var(--tibber-track)'
+                : 'color-mix(in srgb, var(--tibber-teal) 30%, transparent)'; ]]]
+        - color: |
+            [[[ return entity?.state === 'unavailable' ? 'var(--secondary-text-color)' : 'var(--tibber-teal)'; ]]]
+  custom_fields:
+    text: |
+      [[[
+        const reasons = (entity?.attributes?.reasons || []).map((r) => variables.reasons[r]).filter(Boolean).join(', ');
+        const muted = entity?.state === 'unavailable';
+        return `<div style="font-size:20px;font-weight:700;line-height:1.2;color:${
+            muted ? 'var(--secondary-text-color)' : 'var(--primary-text-color)'}">${variables.labels[entity?.state] || entity?.state}</div>
+          ${reasons ? `<div style="margin-top:6px;color:var(--secondary-text-color)">${reasons}</div>` : ''}`;
+      ]]]
+    badge: '<ha-icon icon="mdi:power-plug-battery-outline" style="--mdc-icon-size: 28px"></ha-icon>'

@@ -1,0 +1,5 @@
+type: custom:button-card
+template: tibber_average_price
+entity: sensor.YOURHOME_average_price_this_month
+variables:
+  caption: Your average this month

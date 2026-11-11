@@ -1,0 +1,41 @@
+# Square tile like the app home screen: big value + unit, label below.
+#   variables: label, decimals, unit (override), value (override), badge (mdi icon)
+tibber_tile:
+  template: tibber_base
+  variables:
+    label: ''
+    decimals: 0
+    unit: null
+    value: null
+    badge: null
+  styles:
+    card:
+      - height: 100%
+      - box-sizing: border-box
+      - padding: 12px
+    grid:
+      - grid-template-areas: '"badge" "value" "label"'
+      - grid-template-rows: 22px 1fr auto
+      - height: 100%
+    custom_fields:
+      badge:
+        - justify-self: end
+        - color: var(--secondary-text-color)
+        - --mdc-icon-size: 20px
+      value:
+        - align-self: center
+        - white-space: nowrap
+      label:
+        - font-size: 13px
+        - white-space: nowrap
+        - color: var(--secondary-text-color)
+  custom_fields:
+    badge: '[[[ return variables.badge ? `<ha-icon icon="${variables.badge}"></ha-icon>` : "" ]]]'
+    value: |
+      [[[
+        const v = variables.value ?? entity?.state;
+        const u = variables.unit ?? variables.money_unit(entity?.attributes?.unit_of_measurement);
+        return `<span style="font-size:26px;font-weight:700">${variables.fmt(v, variables.decimals)}</span>`
+          + `<span style="font-size:14px;font-weight:500"> ${u}</span>`;
+      ]]]
+    label: '[[[ return variables.label || entity?.attributes?.friendly_name || "" ]]]'

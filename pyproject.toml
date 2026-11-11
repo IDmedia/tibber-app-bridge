@@ -1,0 +1,45 @@
+[project]
+name = "tibber-app-bridge"
+version = "0.2.0"
+description = "Unofficial, read-only Home Assistant integration for the Tibber app API"
+requires-python = ">=3.13"
+
+[project.optional-dependencies]
+test = ["pytest>=8", "pytest-asyncio>=0.24", "aiohttp>=3.11"]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+  "E", "F", "W",   # pycodestyle / pyflakes
+  "I",             # import order
+  "B",             # bugbear
+  "UP",            # pyupgrade
+  "SIM",           # simplify
+  "ASYNC",         # async pitfalls
+  "S",             # security (bandit)
+  "LOG", "G",      # logging
+  "RUF",
+]
+ignore = [
+  "E501",    # long lines are handled by the formatter where it matters
+  "S101",    # asserts are fine in tests
+  "RUF001",  # en dash and ø in strings are intended
+  "RUF002",
+  "RUF003",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S105", "S106"]  # fake tokens in tests
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = ["homeassistant", "custom_components"]
+combine-as-imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"

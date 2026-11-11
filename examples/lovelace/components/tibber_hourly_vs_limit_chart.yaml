@@ -1,0 +1,79 @@
+type: custom:apexcharts-card
+hours_12: false
+header:
+  show: true
+  title: Hourly consumption today
+  show_states: false
+graph_span: 24h
+span:
+  start: day
+apex_config:
+  chart:
+    height: 240
+    toolbar:
+      show: false
+  grid:
+    borderColor: rgba(127,127,127,0.25)
+  legend:
+    show: true
+    position: bottom
+  plotOptions:
+    bar:
+      borderRadius: 3
+      columnWidth: 75%
+  dataLabels:
+    enabled: false
+  tooltip:
+    shared: true
+yaxis:
+  - min: 0
+    decimals: 1
+series:
+  - type: column
+    entity: sensor.YOURHOME_consumption_today
+    name: Consumption
+    unit: kWh
+    show:
+      legend_value: false
+    color: '#145c78'
+    data_generator: |
+      // tibber: drop empty points
+      const points = (() => {
+        return (entity.attributes.hours || []).map((i) => [new Date(i.start).getTime() + 1800000, i.kwh]);
+      })();
+      return points.filter((p) => p[1] !== null && p[1] !== undefined);
+  # Flat lines across the day from the current sensor values.
+  - type: line
+    entity: sensor.YOURHOME_peak_threshold_this_hour
+    name: New peak above
+    unit: kWh
+    show:
+      legend_value: false
+    color: '#f08a3c'
+    stroke_width: 2
+    data_generator: |
+      // tibber: drop empty points
+      const points = (() => {
+        const v = Number(entity.state);
+        if (isNaN(v)) return [];
+        return [[start.getTime(), v], [end.getTime(), v]];
+      })();
+      return points.filter((p) => p[1] !== null && p[1] !== undefined);
+    extend_to: false
+  - type: line
+    entity: sensor.YOURPULSE_hourly_consumption_limit
+    name: Hourly limit
+    unit: kWh
+    show:
+      legend_value: false
+    color: '#9e9e9e'
+    stroke_width: 1.5
+    data_generator: |
+      // tibber: drop empty points
+      const points = (() => {
+        const v = Number(entity.state);
+        if (isNaN(v)) return [];
+        return [[start.getTime(), v], [end.getTime(), v]];
+      })();
+      return points.filter((p) => p[1] !== null && p[1] !== undefined);
+    extend_to: false

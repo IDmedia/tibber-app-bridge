@@ -1,0 +1,44 @@
+# Stat card: label (+ icon), big value, secondary line.
+#   variables: label, icon, decimals, unit, value, secondary
+tibber_stat:
+  template: tibber_base
+  variables:
+    label: ''
+    icon: null
+    decimals: 0
+    unit: null
+    value: null
+    secondary: ''
+  styles:
+    grid:
+      - grid-template-areas: '"label icon" "value value" "secondary secondary"'
+      - grid-template-columns: 1fr auto
+      - row-gap: 4px
+    custom_fields:
+      label:
+        - justify-self: start
+        - font-size: 14px
+        - color: var(--secondary-text-color)
+      icon:
+        - color: var(--secondary-text-color)
+        - --mdc-icon-size: 22px
+      value:
+        - justify-self: start
+        - white-space: nowrap
+      secondary:
+        - justify-self: start
+        - text-align: left
+        - white-space: normal
+        - font-size: 14px
+        - color: var(--secondary-text-color)
+  custom_fields:
+    label: '[[[ return variables.label ]]]'
+    icon: '[[[ return variables.icon ? `<ha-icon icon="${variables.icon}"></ha-icon>` : "" ]]]'
+    value: |
+      [[[
+        const v = variables.value ?? entity?.state;
+        const u = variables.unit ?? variables.money_unit(entity?.attributes?.unit_of_measurement);
+        return `<span style="font-size:22px;font-weight:700">${variables.fmt(v, variables.decimals)}</span>`
+          + `<span style="font-size:15px;font-weight:600"> ${u}</span>`;
+      ]]]
+    secondary: '[[[ return variables.secondary || "" ]]]'

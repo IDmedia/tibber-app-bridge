@@ -1,0 +1,376 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Log in to Tibber",
+        "description": "Use the same email and password as in the Tibber app. This integration uses the unofficial app API and only reads data.",
+        "data": {
+          "email": "Email",
+          "password": "Password"
+        }
+      },
+      "home": {
+        "title": "Choose home",
+        "data": {
+          "home_id": "Home"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Log in again",
+        "description": "The Tibber session for {email} expired or the password changed.",
+        "data": {
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Wrong email or password.",
+      "cannot_connect": "Could not reach Tibber.",
+      "unknown": "Unexpected error."
+    },
+    "abort": {
+      "already_configured": "This home is already configured.",
+      "no_homes": "No homes on this Tibber account.",
+      "reauth_successful": "Logged in again.",
+      "wrong_account": "This Tibber account doesn't have the configured home. Log in with the account you used when setting it up."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Options",
+        "data": {
+          "live_interval": "Live Pulse update interval",
+          "backfill_days": "Days of hourly history to import",
+          "capacity_steps": "Capacity tariff steps (kWh/h, upper bounds)",
+          "include_grid_price": "Include grid price in prices"
+        },
+        "data_description": {
+          "live_interval": "How often to poll the Pulse (seconds).",
+          "backfill_days": "Imported once into long-term statistics (Energy dashboard).",
+          "capacity_steps": "Comma-separated upper bounds, for example 2,5,10,15,20.",
+          "include_grid_price": "Same as the grid price toggle in the app."
+        }
+      }
+    },
+    "error": {
+      "invalid_steps": "Use numbers separated by commas."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current_price": {
+        "name": "Current price"
+      },
+      "price_level": {
+        "name": "Price level",
+        "state": {
+          "cheap": "Cheap",
+          "normal": "Normal",
+          "expensive": "Expensive"
+        }
+      },
+      "next_price": {
+        "name": "Next price"
+      },
+      "today_min_price": {
+        "name": "Today lowest price"
+      },
+      "today_max_price": {
+        "name": "Today highest price"
+      },
+      "today_avg_price": {
+        "name": "Today average price"
+      },
+      "tomorrow_min_price": {
+        "name": "Tomorrow lowest price"
+      },
+      "tomorrow_max_price": {
+        "name": "Tomorrow highest price"
+      },
+      "tomorrow_avg_price": {
+        "name": "Tomorrow average price"
+      },
+      "month_spot_price": {
+        "name": "Month average spot price"
+      },
+      "today_consumption": {
+        "name": "Consumption today"
+      },
+      "today_cost": {
+        "name": "Cost today"
+      },
+      "month_consumption": {
+        "name": "Consumption this month"
+      },
+      "month_cost": {
+        "name": "Cost this month"
+      },
+      "month_estimated_consumption": {
+        "name": "Estimated consumption this month"
+      },
+      "month_estimated_cost": {
+        "name": "Estimated cost this month"
+      },
+      "previous_month_consumption": {
+        "name": "Consumption last month"
+      },
+      "previous_month_cost": {
+        "name": "Cost last month"
+      },
+      "year_consumption": {
+        "name": "Consumption this year"
+      },
+      "year_cost": {
+        "name": "Cost this year"
+      },
+      "year_estimated_consumption": {
+        "name": "Estimated consumption this year"
+      },
+      "year_estimated_cost": {
+        "name": "Estimated cost this year"
+      },
+      "last_year_consumption": {
+        "name": "Consumption last year"
+      },
+      "last_year_cost": {
+        "name": "Cost last year"
+      },
+      "top3_hourly_average": {
+        "name": "Average of 3 highest hours"
+      },
+      "capacity_step": {
+        "name": "Capacity step"
+      },
+      "capacity_peak_threshold": {
+        "name": "Peak threshold this hour"
+      },
+      "cheapest_window": {
+        "name": "Cheapest 3 hours"
+      },
+      "average_price_month": {
+        "name": "Average price this month"
+      },
+      "average_price_year": {
+        "name": "Average price this year"
+      },
+      "comparison_month": {
+        "name": "Compared with similar homes this month"
+      },
+      "comparison_year": {
+        "name": "Compared with similar homes this year"
+      },
+      "consumption_breakdown": {
+        "name": "Consumption breakdown last month"
+      },
+      "grid_rewards_month": {
+        "name": "Grid Rewards this month"
+      },
+      "grid_rewards_year": {
+        "name": "Grid Rewards this year"
+      },
+      "grid_rewards_total": {
+        "name": "Grid Rewards total"
+      },
+      "charging_average_price": {
+        "name": "Average charging price this month"
+      },
+      "hourly_consumption_limit": {
+        "name": "Hourly consumption limit"
+      },
+      "peak_control_status": {
+        "name": "Peak control status"
+      },
+      "main_fuse_size": {
+        "name": "Main fuse size"
+      },
+      "last_fuse_overload": {
+        "name": "Last fuse overload"
+      },
+      "fuse_overloads_30d": {
+        "name": "Fuse overloads last 30 days"
+      },
+      "today_max_power": {
+        "name": "Highest power today"
+      },
+      "today_min_power": {
+        "name": "Lowest power today"
+      },
+      "pulse_wifi_signal": {
+        "name": "Wi-Fi signal"
+      },
+      "pulse_measurements_per_minute": {
+        "name": "Measurements per minute"
+      },
+      "power": {
+        "name": "Power"
+      },
+      "power_production": {
+        "name": "Power production"
+      },
+      "current_l1": {
+        "name": "Current L1"
+      },
+      "current_l2": {
+        "name": "Current L2"
+      },
+      "current_l3": {
+        "name": "Current L3"
+      },
+      "voltage_l1": {
+        "name": "Voltage L1"
+      },
+      "voltage_l2": {
+        "name": "Voltage L2"
+      },
+      "voltage_l3": {
+        "name": "Voltage L3"
+      },
+      "phase_load_l1": {
+        "name": "Phase load L1"
+      },
+      "phase_load_l2": {
+        "name": "Phase load L2"
+      },
+      "phase_load_l3": {
+        "name": "Phase load L3"
+      },
+      "charger_month_kwh": {
+        "name": "Charging this month"
+      },
+      "charger_month_cost": {
+        "name": "Charging cost this month"
+      },
+      "charger_month_price": {
+        "name": "Charging price this month"
+      },
+      "vehicle_battery_level": {
+        "name": "Battery level"
+      },
+      "vehicle_battery_capacity": {
+        "name": "Battery capacity"
+      },
+      "grid_reward_status": {
+        "name": "Grid Rewards status",
+        "state": {
+          "available": "Ready to contribute",
+          "unavailable": "Not ready to contribute yet",
+          "delivering": "Contributing",
+          "unknown": "Unknown"
+        }
+      },
+      "flex_grid_reward_state": {
+        "name": "Grid Rewards status",
+        "state": {
+          "available": "Ready to contribute",
+          "unavailable": "Not ready to contribute yet",
+          "delivering": "Contributing",
+          "unknown": "Unknown"
+        }
+      },
+      "vehicle_charging_status": {
+        "name": "Charging status"
+      },
+      "vehicle_charge_state": {
+        "name": "Charge state"
+      },
+      "vehicle_charge_power": {
+        "name": "Charge power"
+      },
+      "vehicle_target_soc": {
+        "name": "Target charge level"
+      },
+      "vehicle_departure": {
+        "name": "Departure"
+      },
+      "vehicle_session_energy": {
+        "name": "Charged this session"
+      },
+      "vehicle_session_cost": {
+        "name": "Session cost"
+      },
+      "vehicle_session_average_price": {
+        "name": "Session average price"
+      },
+      "charger_status": {
+        "name": "Charger status"
+      },
+      "charger_charging_status": {
+        "name": "Charging status"
+      },
+      "charger_power": {
+        "name": "Charge power"
+      },
+      "charger_max_current": {
+        "name": "Max charging current"
+      },
+      "charger_last_seen": {
+        "name": "Last seen"
+      },
+      "live_consumption_today": {
+        "name": "Consumption today (live)"
+      },
+      "live_cost_today": {
+        "name": "Cost today (live)"
+      },
+      "consumption_current_hour": {
+        "name": "Consumption this hour"
+      },
+      "estimated_consumption_current_hour": {
+        "name": "Estimated consumption this hour"
+      },
+      "average_power_today": {
+        "name": "Average power today"
+      },
+      "peak_control_state": {
+        "name": "Peak control state"
+      }
+    },
+    "binary_sensor": {
+      "pulse_connected": {
+        "name": "Pulse connected"
+      },
+      "load_balancing": {
+        "name": "Load balancing"
+      },
+      "peak_control": {
+        "name": "Peak control"
+      },
+      "pulse_problem": {
+        "name": "Pulse problem"
+      },
+      "plugged_in": {
+        "name": "Plugged in"
+      },
+      "smart_charging": {
+        "name": "Smart charging"
+      },
+      "vehicle_charging": {
+        "name": "Charging"
+      },
+      "charger_online": {
+        "name": "Online"
+      },
+      "charger_load_balancing": {
+        "name": "Load balancing"
+      }
+    }
+  },
+  "exceptions": {
+    "auth_failed": {
+      "message": "The Tibber session expired. Log in again."
+    },
+    "setup_failed": {
+      "message": "Could not connect to Tibber: {error}"
+    },
+    "home_not_found": {
+      "message": "Home {home_id} was not found on this Tibber account."
+    },
+    "update_failed": {
+      "message": "Could not update data from Tibber: {error}"
+    },
+    "live_failed": {
+      "message": "Could not read live Pulse data: {error}"
+    }
+  }
+}

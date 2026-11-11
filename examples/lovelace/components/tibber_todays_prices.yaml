@@ -1,0 +1,5 @@
+type: custom:button-card
+template: tibber_price_strip
+entity: sensor.YOURHOME_current_price
+grid_options:
+  columns: full

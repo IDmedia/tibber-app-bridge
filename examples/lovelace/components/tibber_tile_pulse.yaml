@@ -1,0 +1,8 @@
+type: custom:button-card
+template: tibber_power_tile
+entity: sensor.YOURPULSE_power
+variables:
+  fuse_entity: sensor.YOURPULSE_main_fuse_size
+grid_options:
+  columns: 4
+  rows: 2

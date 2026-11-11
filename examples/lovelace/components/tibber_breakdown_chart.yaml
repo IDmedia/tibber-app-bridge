@@ -1,0 +1,71 @@
+type: custom:apexcharts-card
+hours_12: false
+chart_type: donut
+header:
+  show: true
+  title: What used the most last month
+  show_states: false
+apex_config:
+  chart:
+    height: 300
+  legend:
+    position: bottom
+    horizontalAlign: center
+    fontSize: 11px
+    itemMargin:
+      horizontal: 4
+  dataLabels:
+    enabled: true
+series:
+  - entity: sensor.YOURHOME_consumption_breakdown_last_month
+    name: Heating
+    color: '#145c78'
+    unit: kr
+    show:
+      legend_value: false
+    data_generator: |
+      // tibber: drop empty points
+      const points = (() => {
+        const i = (entity.attributes.items || []).find((x) => x.type === 'heating');
+        return [[Date.now(), i ? i.cost : 0]];
+      })();
+      return points.filter((p) => p[1] !== null && p[1] !== undefined);
+  - entity: sensor.YOURHOME_consumption_breakdown_last_month
+    name: Always on
+    color: '#23b8a6'
+    unit: kr
+    show:
+      legend_value: false
+    data_generator: |
+      // tibber: drop empty points
+      const points = (() => {
+        const i = (entity.attributes.items || []).find((x) => x.type === 'always_on');
+        return [[Date.now(), i ? i.cost : 0]];
+      })();
+      return points.filter((p) => p[1] !== null && p[1] !== undefined);
+  - entity: sensor.YOURHOME_consumption_breakdown_last_month
+    name: Behaviour
+    color: '#24c3d6'
+    unit: kr
+    show:
+      legend_value: false
+    data_generator: |
+      // tibber: drop empty points
+      const points = (() => {
+        const i = (entity.attributes.items || []).find((x) => x.type === 'behavior');
+        return [[Date.now(), i ? i.cost : 0]];
+      })();
+      return points.filter((p) => p[1] !== null && p[1] !== undefined);
+  - entity: sensor.YOURHOME_consumption_breakdown_last_month
+    name: EV charging
+    color: '#f08a3c'
+    unit: kr
+    show:
+      legend_value: false
+    data_generator: |
+      // tibber: drop empty points
+      const points = (() => {
+        const i = (entity.attributes.items || []).find((x) => ['charging', 'ev_charging', 'electric_vehicles'].includes(x.type));
+        return [[Date.now(), i ? i.cost : 0]];
+      })();
+      return points.filter((p) => p[1] !== null && p[1] !== undefined);

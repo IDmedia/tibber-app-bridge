@@ -1,0 +1,26 @@
+# Section title like "Overloads of main fuse"
+tibber_title:
+  template: tibber_base
+  tap_action:
+    action: none
+  styles:
+    card:
+      - background: none
+      - box-shadow: none
+      - border-style: none
+      - --ha-card-border-width: 0
+      - padding: 8px 4px 0
+    grid:
+      - grid-template-areas: '"title" "sub"'
+    custom_fields:
+      title:
+        - justify-self: start
+        - font-size: 20px
+        - font-weight: 600
+      sub:
+        - justify-self: start
+        - font-size: 14px
+        - color: var(--secondary-text-color)
+  custom_fields:
+    title: '[[[ return variables.title || "" ]]]'
+    sub: '[[[ return variables.subtitle || "" ]]]'

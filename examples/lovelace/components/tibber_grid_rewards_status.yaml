@@ -1,0 +1,3 @@
+type: custom:button-card
+template: tibber_grid_status
+entity: sensor.YOURHOME_grid_rewards_status

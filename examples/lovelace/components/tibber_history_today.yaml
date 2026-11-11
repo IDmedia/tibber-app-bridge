@@ -1,0 +1,83 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURHOME_consumption_today
+    variables:
+      label: Today
+      icon: mdi:chart-bar
+      decimals: 2
+      unit: kWh
+      # Tibber's hourly data only has completed hours, so it trails the live Pulse total.
+      secondary: |
+        [[[
+          const done = (entity.attributes.hours || []).filter((h) => h.kwh !== null && h.kwh !== undefined);
+          const until = done.length
+            ? " · until " + new Date(new Date(done[done.length - 1].start).getTime() + 3600000)
+                .toLocaleTimeString(undefined, { hour: "2-digit", minute: "2-digit", hourCycle: "h23" })
+            : "";
+          return "Cost: " + variables.fmt(states["sensor.YOURHOME_cost_today"].state, 2) + " kr" + until;
+        ]]]
+  - type: custom:apexcharts-card
+    hours_12: false
+    graph_span: 24h
+    span:
+      start: day
+    header:
+      show: false
+    apex_config:
+      chart:
+        height: 240
+        toolbar:
+          show: false
+        zoom:
+          enabled: false
+      grid:
+        borderColor: rgba(127,127,127,0.25)
+      legend:
+        show: false
+      plotOptions:
+        bar:
+          borderRadius: 3
+          columnWidth: 75%
+      dataLabels:
+        enabled: false
+    yaxis:
+      - id: value
+        min: 0
+        decimals: 1
+      - id: price
+        opposite: true
+        min: 0
+        decimals: 0
+        apex_config:
+          title:
+            text: øre/kWh
+    series:
+      - type: column
+        entity: sensor.YOURHOME_consumption_today
+        name: Consumption
+        unit: kWh
+        color: '#145c78'
+        yaxis_id: value
+        data_generator: |
+          // tibber: drop empty points
+          const points = (() => {
+            return (entity.attributes.hours || []).map((i) => [new Date(i.start).getTime() + 1800000, i.kwh]);
+          })();
+          return points.filter((p) => p[1] !== null && p[1] !== undefined);
+      - type: line
+        entity: sensor.YOURHOME_consumption_today
+        name: Price
+        unit: øre/kWh
+        curve: smooth
+        stroke_width: 1.5
+        color: '#888888'
+        yaxis_id: price
+        data_generator: |
+          // tibber: drop empty points
+          const points = (() => {
+            return (entity.attributes.hours || []).map((i) => [new Date(i.start).getTime() + 1800000, i.price]);
+          })();
+          return points.filter((p) => p[1] !== null && p[1] !== undefined);
+        extend_to: false

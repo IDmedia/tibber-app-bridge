@@ -1,0 +1,10 @@
+type: custom:button-card
+template: tibber_tile
+entity: sensor.YOURCHARGER_charging_this_month
+variables:
+  label: Charger
+  decimals: 0
+  badge: mdi:ev-plug-type2
+grid_options:
+  columns: 4
+  rows: 2

@@ -1,0 +1,22 @@
+type: grid
+columns: 2
+square: false
+cards:
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURCAR1_battery_level
+    variables:
+      label: Car 1
+      icon: mdi:car-electric
+      unit: '%'
+      secondary: |
+        [[[ return variables.fmt(states["sensor.YOURCAR1_battery_capacity"]?.state) + " kWh battery" ]]]
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURCAR2_battery_level
+    variables:
+      label: Car 2
+      icon: mdi:car-electric
+      unit: '%'
+      secondary: |
+        [[[ return variables.fmt(states["sensor.YOURCAR2_battery_capacity"]?.state) + " kWh battery" ]]]

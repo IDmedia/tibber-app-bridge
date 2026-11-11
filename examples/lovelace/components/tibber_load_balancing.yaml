@@ -1,0 +1,45 @@
+type: grid
+columns: 2
+square: false
+cards:
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURPULSE_main_fuse_size
+    variables:
+      label: Main fuse
+      icon: mdi:fuse
+      unit: A
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURPULSE_hourly_consumption_limit
+    variables:
+      label: Hourly limit
+      icon: mdi:speedometer
+      decimals: 1
+      unit: kWh
+      secondary: |
+        [[[ return "Peak control: " + (states["sensor.YOURPULSE_peak_control_status"]?.state || "–") ]]]
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURCHARGER_max_charging_current
+    variables:
+      label: Charger limit
+      icon: mdi:ev-plug-type2
+      unit: A
+      secondary: |
+        [[[ return states["sensor.YOURCHARGER_charger_status"]?.state || "" ]]]
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURPULSE_fuse_overloads_last_30_days
+    variables:
+      label: Overloads (30 d)
+      icon: mdi:alert-outline
+      unit: ''
+  - type: custom:button-card
+    template: tibber_stat
+    entity: binary_sensor.YOURPULSE_load_balancing
+    variables:
+      label: Load balancing
+      icon: mdi:scale-unbalanced
+      value: '[[[ return entity.state === "on" ? "On" : "Off" ]]]'
+      unit: ''

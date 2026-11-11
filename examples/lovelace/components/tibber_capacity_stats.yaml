@@ -1,0 +1,46 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: grid
+    columns: 2
+    square: false
+    cards:
+      - type: custom:button-card
+        template: tibber_stat
+        entity: sensor.YOURHOME_average_of_3_highest_hours
+        variables:
+          label: Top-3 average
+          icon: mdi:podium
+          decimals: 2
+          unit: kWh
+          secondary: |
+            [[[ const p = entity.attributes.previous_month;
+                return p ? `Last month: ${variables.fmt(p, 2)} kWh` : ''; ]]]
+      - type: custom:button-card
+        template: tibber_stat
+        entity: sensor.YOURHOME_capacity_step
+        variables:
+          label: Capacity step
+          icon: mdi:stairs
+          unit: ''
+          secondary: |
+            [[[ const a = states["sensor.YOURHOME_average_of_3_highest_hours"]?.attributes || {};
+                if (a.step_lower == null) return '';
+                return a.step_upper ? `${a.step_lower}–${a.step_upper} kWh` : `> ${a.step_lower} kWh`; ]]]
+  # How much an hour may use before it changes this month's tariff.
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURHOME_peak_threshold_this_hour
+    variables:
+      label: Peak threshold this hour
+      icon: mdi:chart-bell-curve-cumulative
+      decimals: 2
+      unit: kWh
+      secondary: |
+        [[[
+          const a = entity?.attributes || {};
+          const parts = ['An hour above this becomes one of the 3 peaks'];
+          if (a.to_next_step != null) {
+            parts.push(`Step ${a.next_step} (≥ ${variables.fmt(a.next_step_lower)} kWh) needs ${variables.fmt(a.to_next_step, 2)} kWh in one hour`);
+          }
+          return parts.join('<br>');
+        ]]]

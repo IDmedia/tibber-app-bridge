@@ -1,0 +1,9 @@
+type: statistics-graph
+title: Cost per day
+chart_type: bar
+period: day
+days_to_show: 60
+stat_types:
+  - change
+entities:
+  - tibber_app_bridge:cost_YOURSTATID

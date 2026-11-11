@@ -1,0 +1,17 @@
+type: grid
+columns: 2
+square: false
+cards:
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURHOME_grid_rewards_this_month
+    variables:
+      label: This month
+      icon: mdi:calendar-month
+      decimals: 2
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURHOME_grid_rewards_total
+    variables:
+      label: Total
+      icon: mdi:sigma

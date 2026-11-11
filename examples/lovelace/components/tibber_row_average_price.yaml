@@ -1,0 +1,8 @@
+type: custom:button-card
+template: tibber_row
+entity: sensor.YOURHOME_average_price_this_month
+variables:
+  title: Your average price
+  icon: mdi:scale-balance
+  line1: '[[[ return variables.fmt(entity.state, 2) + " kr/kWh" ]]]'
+  line2: Incl. taxes, fees & Grid Rewards. Excl. electricity subsidy.

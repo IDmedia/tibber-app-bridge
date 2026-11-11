@@ -1,0 +1,191 @@
+# Tibber App Bridge showcase: one view with every example card.
+#
+# Include it from ui-lovelace.yaml like any other view:
+#   button_card_templates: !include_dir_merge_named lovelace/button_card/
+#   views:
+#     - !include lovelace/tibber.yaml
+#
+# Each card is a file in components/ (paths are relative to this file), so you
+# can copy single cards into your own views. Templates are in button_card/.
+#
+# Placeholders (search and replace here and in components/; none of them
+# contains another, so the order doesn't matter):
+#   YOURHOME     home device       sensor.YOURHOME_current_price
+#   YOURPULSE    Pulse device      sensor.YOURPULSE_power            (usually <home>_tibber_pulse)
+#   YOURCHARGER  charger device    sensor.YOURCHARGER_charger_status (e.g. <home>_easee_charger)
+#   YOURCAR1     first vehicle     sensor.YOURCAR1_battery_level
+#   YOURCAR2     second vehicle    sensor.YOURCAR2_battery_level
+#   YOURSTATID   statistic id      tibber_app_bridge:consumption_YOURSTATID
+# Chart axes say "kr" and "øre"; change them for other currencies (e.g. € / ct).
+
+title: Tibber
+path: tibber
+icon: mdi:home-lightning-bolt
+type: sections
+max_columns: 3
+sections:
+  - type: grid
+    cards:
+      - type: heading
+        heading: Overview
+        heading_style: title
+      - type: markdown
+        content: Price now, today's prices and the app's home screen tiles.
+        text_only: true
+      - !include components/tibber_todays_prices.yaml
+      - !include components/tibber_tile_pulse.yaml
+      - !include components/tibber_tile_charger.yaml
+      - !include components/tibber_tile_capacity.yaml
+      - !include components/tibber_tile_consumption.yaml
+      - !include components/tibber_tile_average_price.yaml
+      - !include components/tibber_tile_grid_rewards.yaml
+      - !include components/tibber_cheapest_window.yaml
+      - type: heading
+        heading: This month
+        heading_style: subtitle
+      - !include components/tibber_row_used.yaml
+      - !include components/tibber_row_average_price.yaml
+      - !include components/tibber_compared_with_others.yaml
+      - type: heading
+        heading: Your vehicles
+        heading_style: subtitle
+      - !include components/tibber_tile_car1.yaml
+      - !include components/tibber_tile_car2.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: Right now
+        heading_style: title
+      - type: markdown
+        content: Live consumption from the Pulse and how this hour is going.
+        text_only: true
+      - !include components/tibber_pulse.yaml
+      - !include components/tibber_this_hour.yaml
+      - !include components/tibber_power_24h_chart.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: Phase load
+        heading_style: title
+      - type: markdown
+        content: Load per phase against the main fuse.
+        text_only: true
+      - !include components/tibber_phase_load.yaml
+      - !include components/tibber_phase_currents_chart.yaml
+      - !include components/tibber_fuse_overloads.yaml
+      - !include components/tibber_pulse_status.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: History
+        heading_style: title
+      - type: markdown
+        content: Today by hour, this month by day, this year against last year.
+        text_only: true
+      - !include components/tibber_history_today.yaml
+      - !include components/tibber_history_month.yaml
+      - !include components/tibber_history_year.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: Long-term history
+        heading_style: title
+      - type: markdown
+        content: Hourly data imported into Home Assistant statistics (also usable in the Energy dashboard).
+        text_only: true
+      - !include components/tibber_statistics_per_month.yaml
+      - !include components/tibber_statistics_per_day.yaml
+      - !include components/tibber_year_over_year.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: Prices
+        heading_style: title
+      - !include components/tibber_prices_today_chart.yaml
+      - !include components/tibber_prices_tomorrow_chart.yaml
+      - !include components/tibber_price_stats_today.yaml
+      - !include components/tibber_prices_table.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: Your average price
+        heading_style: title
+      - type: markdown
+        content: What you paid per kWh compared with similar homes.
+        text_only: true
+      - !include components/tibber_average_price_month.yaml
+      - !include components/tibber_average_price_year.yaml
+      - !include components/tibber_average_price_by_type.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: Compared with others
+        heading_style: title
+      - !include components/tibber_comparison_month.yaml
+      - !include components/tibber_comparison_year.yaml
+      - !include components/tibber_breakdown_chart.yaml
+      - !include components/tibber_breakdown_table.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: Capacity tariff
+        heading_style: title
+      - type: markdown
+        content: The grid tariff step is set by the average of the 3 highest hours (on different days) this month.
+        text_only: true
+      - !include components/tibber_capacity_stats.yaml
+      - !include components/tibber_capacity_level.yaml
+      - !include components/tibber_highest_hours.yaml
+      - !include components/tibber_hourly_vs_limit_chart.yaml
+      - type: heading
+        heading: Load balancing & peak control
+        heading_style: subtitle
+      - !include components/tibber_load_balancing.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: Grid Rewards
+        heading_style: title
+      - !include components/tibber_grid_rewards_status.yaml
+      - type: heading
+        heading: You have earned
+        heading_style: subtitle
+      - !include components/tibber_grid_rewards_earned.yaml
+      - !include components/tibber_charging_price.yaml
+      - !include components/tibber_grid_rewards_month_chart.yaml
+      - !include components/tibber_grid_rewards_year_chart.yaml
+      - !include components/tibber_grid_rewards_per_year.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: Your devices
+        heading_style: title
+      - type: markdown
+        content: These are your devices that can support the power grid.
+        text_only: true
+      - !include components/tibber_vehicle_car1.yaml
+      - !include components/tibber_vehicle_car2.yaml
+      - !include components/tibber_car_batteries.yaml
+
+  - type: grid
+    cards:
+      - type: heading
+        heading: EV charging
+        heading_style: title
+      - type: markdown
+        content: The charger and the session of the car connected to it.
+        text_only: true
+      - !include components/tibber_ev_charging_now.yaml
+      - !include components/tibber_charging_plan.yaml
+      - !include components/tibber_charger_month.yaml
+      - !include components/tibber_charging_per_day_chart.yaml

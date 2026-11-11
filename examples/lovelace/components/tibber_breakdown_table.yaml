@@ -1,0 +1,27 @@
+type: custom:flex-table-card
+title: Breakdown
+entities:
+  include: sensor.YOURHOME_consumption_breakdown_last_month
+columns:
+  - name: Category
+    data: items.type
+    modify: "({ heating: 'Heating', always_on: 'Always on', behavior: 'Behaviour', charging: 'EV charging', electric_vehicles:
+      'EV charging' })[x] || x"
+  - name: kWh
+    data: items.consumption
+    align: right
+  - name: Cost
+    data: items.cost
+    align: right
+    modify: x + ' kr'
+  - name: Share
+    data: items.percent
+    align: right
+    modify: x + ' %'
+css:
+  # Title in the same size as the chart titles; rows without stripes.
+  ha-card: '--ha-card-header-font-size: 16px; --ha-card-header-color: var(--secondary-text-color);
+    --ha-font-weight-normal: 500; --ha-space-5: 12px; --ha-space-6: 4px'
+  'tbody tr:nth-child(odd)': 'background-color: transparent'
+  'tbody tr:nth-child(even)': 'background-color: transparent'
+  'tbody td': 'border-top: 1px solid var(--divider-color)'

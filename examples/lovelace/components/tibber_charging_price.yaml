@@ -1,0 +1,9 @@
+type: custom:button-card
+template: tibber_stat
+entity: sensor.YOURHOME_average_charging_price_this_month
+variables:
+  label: Average charging price
+  icon: mdi:car-electric
+  decimals: 2
+  unit: kr/kWh
+  secondary: This month

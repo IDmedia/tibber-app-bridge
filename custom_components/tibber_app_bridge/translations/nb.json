@@ -1,0 +1,376 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Logg inn på Tibber",
+        "description": "Bruk samme e-post og passord som i Tibber-appen. Integrasjonen bruker appens uoffisielle API og leser bare data.",
+        "data": {
+          "email": "E-post",
+          "password": "Passord"
+        }
+      },
+      "home": {
+        "title": "Velg hjem",
+        "data": {
+          "home_id": "Hjem"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Logg inn på nytt",
+        "description": "Tibber-økten for {email} er utløpt eller passordet er endret.",
+        "data": {
+          "password": "Passord"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Feil e-post eller passord.",
+      "cannot_connect": "Kunne ikke nå Tibber.",
+      "unknown": "Uventet feil."
+    },
+    "abort": {
+      "already_configured": "Dette hjemmet er allerede satt opp.",
+      "no_homes": "Ingen hjem på denne Tibber-kontoen.",
+      "reauth_successful": "Logget inn på nytt.",
+      "wrong_account": "Denne Tibber-kontoen har ikke hjemmet som er satt opp. Logg inn med kontoen du brukte da det ble satt opp."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Innstillinger",
+        "data": {
+          "live_interval": "Oppdateringsintervall for Pulse",
+          "backfill_days": "Antall dager timehistorikk som importeres",
+          "capacity_steps": "Kapasitetstrinn (kWh/t, øvre grense)",
+          "include_grid_price": "Ta med nettleie i prisene"
+        },
+        "data_description": {
+          "live_interval": "Hvor ofte Pulse hentes (sekunder).",
+          "backfill_days": "Importeres én gang til langtidsstatistikk (Energi-dashbordet).",
+          "capacity_steps": "Kommaseparerte øvre grenser, for eksempel 2,5,10,15,20.",
+          "include_grid_price": "Samme som nettleie-bryteren i appen."
+        }
+      }
+    },
+    "error": {
+      "invalid_steps": "Bruk tall skilt med komma."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "current_price": {
+        "name": "Strømpris nå"
+      },
+      "price_level": {
+        "name": "Prisnivå",
+        "state": {
+          "cheap": "Billig",
+          "normal": "Normal",
+          "expensive": "Dyr"
+        }
+      },
+      "next_price": {
+        "name": "Neste pris"
+      },
+      "today_min_price": {
+        "name": "Laveste pris i dag"
+      },
+      "today_max_price": {
+        "name": "Høyeste pris i dag"
+      },
+      "today_avg_price": {
+        "name": "Snittpris i dag"
+      },
+      "tomorrow_min_price": {
+        "name": "Laveste pris i morgen"
+      },
+      "tomorrow_max_price": {
+        "name": "Høyeste pris i morgen"
+      },
+      "tomorrow_avg_price": {
+        "name": "Snittpris i morgen"
+      },
+      "month_spot_price": {
+        "name": "Snitt spotpris denne måneden"
+      },
+      "today_consumption": {
+        "name": "Forbruk i dag"
+      },
+      "today_cost": {
+        "name": "Kostnad i dag"
+      },
+      "month_consumption": {
+        "name": "Forbruk denne måneden"
+      },
+      "month_cost": {
+        "name": "Kostnad denne måneden"
+      },
+      "month_estimated_consumption": {
+        "name": "Forventet forbruk denne måneden"
+      },
+      "month_estimated_cost": {
+        "name": "Forventet kostnad denne måneden"
+      },
+      "previous_month_consumption": {
+        "name": "Forbruk forrige måned"
+      },
+      "previous_month_cost": {
+        "name": "Kostnad forrige måned"
+      },
+      "year_consumption": {
+        "name": "Forbruk i år"
+      },
+      "year_cost": {
+        "name": "Kostnad i år"
+      },
+      "year_estimated_consumption": {
+        "name": "Forventet forbruk i år"
+      },
+      "year_estimated_cost": {
+        "name": "Forventet kostnad i år"
+      },
+      "last_year_consumption": {
+        "name": "Forbruk i fjor"
+      },
+      "last_year_cost": {
+        "name": "Kostnad i fjor"
+      },
+      "top3_hourly_average": {
+        "name": "Snitt av de 3 høyeste timene"
+      },
+      "capacity_step": {
+        "name": "Kapasitetstrinn"
+      },
+      "capacity_peak_threshold": {
+        "name": "Toppgrense denne timen"
+      },
+      "cheapest_window": {
+        "name": "Billigste 3 timer"
+      },
+      "average_price_month": {
+        "name": "Snittpris denne måneden"
+      },
+      "average_price_year": {
+        "name": "Snittpris i år"
+      },
+      "comparison_month": {
+        "name": "Sammenlignet med andre denne måneden"
+      },
+      "comparison_year": {
+        "name": "Sammenlignet med andre i år"
+      },
+      "consumption_breakdown": {
+        "name": "Hva brukte mest forrige måned"
+      },
+      "grid_rewards_month": {
+        "name": "Grid Rewards denne måneden"
+      },
+      "grid_rewards_year": {
+        "name": "Grid Rewards i år"
+      },
+      "grid_rewards_total": {
+        "name": "Grid Rewards totalt"
+      },
+      "charging_average_price": {
+        "name": "Gjennomsnittlig ladepris denne måneden"
+      },
+      "hourly_consumption_limit": {
+        "name": "Forbruksgrense per time"
+      },
+      "peak_control_status": {
+        "name": "Status effektstyring"
+      },
+      "main_fuse_size": {
+        "name": "Hovedsikring"
+      },
+      "last_fuse_overload": {
+        "name": "Siste overbelastning av sikring"
+      },
+      "fuse_overloads_30d": {
+        "name": "Overbelastninger siste 30 dager"
+      },
+      "today_max_power": {
+        "name": "Høyeste effekt i dag"
+      },
+      "today_min_power": {
+        "name": "Laveste effekt i dag"
+      },
+      "pulse_wifi_signal": {
+        "name": "Wi-Fi-signal"
+      },
+      "pulse_measurements_per_minute": {
+        "name": "Målinger per minutt"
+      },
+      "power": {
+        "name": "Effekt"
+      },
+      "power_production": {
+        "name": "Produksjon"
+      },
+      "current_l1": {
+        "name": "Strøm L1"
+      },
+      "current_l2": {
+        "name": "Strøm L2"
+      },
+      "current_l3": {
+        "name": "Strøm L3"
+      },
+      "voltage_l1": {
+        "name": "Spenning L1"
+      },
+      "voltage_l2": {
+        "name": "Spenning L2"
+      },
+      "voltage_l3": {
+        "name": "Spenning L3"
+      },
+      "phase_load_l1": {
+        "name": "Fasebelastning L1"
+      },
+      "phase_load_l2": {
+        "name": "Fasebelastning L2"
+      },
+      "phase_load_l3": {
+        "name": "Fasebelastning L3"
+      },
+      "charger_month_kwh": {
+        "name": "Lading denne måneden"
+      },
+      "charger_month_cost": {
+        "name": "Ladekostnad denne måneden"
+      },
+      "charger_month_price": {
+        "name": "Ladepris denne måneden"
+      },
+      "vehicle_battery_level": {
+        "name": "Batterinivå"
+      },
+      "vehicle_battery_capacity": {
+        "name": "Batterikapasitet"
+      },
+      "grid_reward_status": {
+        "name": "Grid Rewards-status",
+        "state": {
+          "available": "Klar til å bidra",
+          "unavailable": "Ikke klar til å bidra ennå",
+          "delivering": "Bidrar",
+          "unknown": "Ukjent"
+        }
+      },
+      "flex_grid_reward_state": {
+        "name": "Grid Rewards-status",
+        "state": {
+          "available": "Klar til å bidra",
+          "unavailable": "Ikke klar til å bidra ennå",
+          "delivering": "Bidrar",
+          "unknown": "Ukjent"
+        }
+      },
+      "vehicle_charging_status": {
+        "name": "Ladestatus"
+      },
+      "vehicle_charge_state": {
+        "name": "Ladetilstand"
+      },
+      "vehicle_charge_power": {
+        "name": "Ladeeffekt"
+      },
+      "vehicle_target_soc": {
+        "name": "Ønsket batterinivå"
+      },
+      "vehicle_departure": {
+        "name": "Avreise"
+      },
+      "vehicle_session_energy": {
+        "name": "Ladet denne økten"
+      },
+      "vehicle_session_cost": {
+        "name": "Kostnad denne økten"
+      },
+      "vehicle_session_average_price": {
+        "name": "Snittpris denne økten"
+      },
+      "charger_status": {
+        "name": "Laderstatus"
+      },
+      "charger_charging_status": {
+        "name": "Ladestatus"
+      },
+      "charger_power": {
+        "name": "Ladeeffekt"
+      },
+      "charger_max_current": {
+        "name": "Maks ladestrøm"
+      },
+      "charger_last_seen": {
+        "name": "Sist sett"
+      },
+      "live_consumption_today": {
+        "name": "Forbruk i dag (sanntid)"
+      },
+      "live_cost_today": {
+        "name": "Kostnad i dag (sanntid)"
+      },
+      "consumption_current_hour": {
+        "name": "Forbruk denne timen"
+      },
+      "estimated_consumption_current_hour": {
+        "name": "Forventet forbruk denne timen"
+      },
+      "average_power_today": {
+        "name": "Gjennomsnittlig effekt i dag"
+      },
+      "peak_control_state": {
+        "name": "Effektstyring-tilstand"
+      }
+    },
+    "binary_sensor": {
+      "pulse_connected": {
+        "name": "Pulse tilkoblet"
+      },
+      "load_balancing": {
+        "name": "Lastbalansering"
+      },
+      "peak_control": {
+        "name": "Effektstyring"
+      },
+      "pulse_problem": {
+        "name": "Pulse-problem"
+      },
+      "plugged_in": {
+        "name": "Tilkoblet"
+      },
+      "smart_charging": {
+        "name": "Smartlading"
+      },
+      "vehicle_charging": {
+        "name": "Lader"
+      },
+      "charger_online": {
+        "name": "Tilkoblet"
+      },
+      "charger_load_balancing": {
+        "name": "Lastbalansering"
+      }
+    }
+  },
+  "exceptions": {
+    "auth_failed": {
+      "message": "Tibber-økten er utløpt. Logg inn på nytt."
+    },
+    "setup_failed": {
+      "message": "Kunne ikke koble til Tibber: {error}"
+    },
+    "home_not_found": {
+      "message": "Fant ikke hjemmet {home_id} på denne Tibber-kontoen."
+    },
+    "update_failed": {
+      "message": "Kunne ikke hente data fra Tibber: {error}"
+    },
+    "live_failed": {
+      "message": "Kunne ikke lese sanntidsdata fra Pulse: {error}"
+    }
+  }
+}

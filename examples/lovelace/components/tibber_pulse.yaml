@@ -1,0 +1,74 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: custom:apexcharts-card
+    hours_12: false
+    graph_span: 1h
+    series:
+      - type: area
+        entity: sensor.YOURPULSE_power
+        name: Now
+        unit: W
+        float_precision: 0
+        color: '#23b8a6'
+        stroke_width: 2
+        opacity: 0.25
+        group_by:
+          func: avg
+          duration: 30s
+        # Header shows the live sensor state, not the 30 s average.
+        show:
+          in_header: raw
+    header:
+      show: true
+      title: Last hour
+      show_states: true
+      colorize_states: true
+    apex_config:
+      chart:
+        height: 240
+        toolbar:
+          show: false
+        zoom:
+          enabled: false
+      grid:
+        borderColor: rgba(127,127,127,0.25)
+      legend:
+        show: false
+      tooltip:
+        x:
+          format: HH:mm:ss
+    yaxis:
+      - min: 0
+        decimals: 0
+        apex_config:
+          tickAmount: 3
+  - type: grid
+    columns: 3
+    square: false
+    cards:
+      - type: custom:button-card
+        template: tibber_stat
+        entity: sensor.YOURPULSE_consumption_today_live
+        variables:
+          label: Today
+          icon: mdi:flash-outline
+          decimals: 2
+          unit: kWh
+          secondary: |
+            [[[ return variables.fmt(states["sensor.YOURPULSE_cost_today_live"]?.state, 2) + " kr" ]]]
+      - type: custom:button-card
+        template: tibber_stat
+        entity: sensor.YOURPULSE_highest_power_today
+        variables:
+          label: Highest
+          icon: mdi:trending-up
+          unit: W
+          secondary: '[[[ return variables.time(entity.attributes.at) ]]]'
+      - type: custom:button-card
+        template: tibber_stat
+        entity: sensor.YOURPULSE_lowest_power_today
+        variables:
+          label: Lowest
+          icon: mdi:trending-down
+          unit: W
+          secondary: '[[[ return variables.time(entity.attributes.at) ]]]'

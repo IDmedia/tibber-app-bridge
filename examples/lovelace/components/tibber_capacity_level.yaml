@@ -1,0 +1,106 @@
+# Capacity tariff level: gauge plus the current tier, all tiers with their
+# monthly price, and this month's 3 peak hours.
+#
+# Tiers come from an optional sensor of your own (`tiers` below) with two
+# attributes, as a scrape of your grid company's price page gives you:
+#   ranges: "0-2 kWh/h,2-5 kWh/h,5-10 kWh/h,..."
+#   prices: "165,270,455,..."            (kr per month, same order)
+# Without it the tiers come from the integration's capacity steps, without prices.
+type: custom:vertical-stack-in-card
+cards:
+  - type: gauge
+    entity: sensor.YOURHOME_average_of_3_highest_hours
+    name: Current capacity level
+    needle: true
+    min: 0
+    max: 20
+    unit: kWh/h
+    # Norwegian steps; match them to your grid company's.
+    segments:
+      - from: 0
+        color: '#f6d7b0'
+        label: 0–2 kWh/h
+      - from: 2
+        color: '#f3a83e'
+        label: 2–5 kWh/h
+      - from: 5
+        color: '#ddeee3'
+        label: 5–10 kWh/h
+      - from: 10
+        color: '#9fd1b6'
+        label: 10–15 kWh/h
+      - from: 15
+        color: '#ea9b6a'
+        label: 15–20 kWh/h
+  - type: markdown
+    content: |
+      {%- set cap = 'sensor.YOURHOME_average_of_3_highest_hours' -%}
+      {%- set tiers = 'sensor.YOURTIERPRICES' -%}
+      {%- set num = '\d+(?:\.\d+)?' -%}
+      {%- macro n(x) -%}{{ '%g' % x }}{%- endmacro -%}
+      {%- set v = states(cap) | float(none) -%}
+      {%- set prices = (state_attr(tiers, 'prices') or '') | string | regex_findall(num)
+           | map('float') | list -%}
+      {%- set ranges = (state_attr(tiers, 'ranges') or '') | string
+           | regex_findall(num ~ '\s*[-–]\s*' ~ num) -%}
+      {#- Tier list: the tiers sensor if there is one, else the integration's steps. -#}
+      {%- set ns = namespace(tiers=[], lower=0, active=none) -%}
+      {%- if ranges -%}
+        {%- for r in ranges -%}
+          {%- set b = r | regex_findall(num) | map('float') | list -%}
+          {%- set ns.tiers = ns.tiers + [{'lo': b[0], 'hi': b[1], 'price': prices[loop.index0] if loop.index0 < prices | length else none}] -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for upper in state_attr(cap, 'steps') or [] -%}
+          {%- set ns.tiers = ns.tiers + [{'lo': ns.lower, 'hi': upper, 'price': prices[loop.index0] if loop.index0 < prices | length else none}] -%}
+          {%- set ns.lower = upper -%}
+        {%- endfor -%}
+      {%- endif -%}
+      {#- Active tier; above the last one counts as the last one. -#}
+      {%- for t in ns.tiers -%}
+        {%- if ns.active is none and v is not none and v >= t.lo and (v < t.hi or loop.last) -%}
+          {%- set ns.active = loop.index0 -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- set cur = ns.tiers[ns.active] if ns.active is not none else none -%}
+      {%- if v is none -%}
+      Capacity data is not available yet.
+      {%- else -%}
+      {%- if cur -%}
+      Current capacity level: **{{ n(cur.lo) }}–{{ n(cur.hi) }} kWh/h**
+      {%- elif state_attr(cap, 'step') is not none -%}
+      Current capacity level: **{{ n(state_attr(cap, 'step_lower')) }}–{{ n(state_attr(cap, 'step_upper')) if state_attr(cap, 'step_upper') is not none else '∞' }} kWh/h**
+      {%- endif %}
+      Basis for tier (avg of top 3): **{{ '%.2f' % v }} kWh/h**
+      {%- if state_attr(cap, 'previous_month') is not none %}
+      Last month: **{{ '%.2f' % state_attr(cap, 'previous_month') }} kWh/h**
+      {%- endif %}
+      {%- if cur and cur.price is not none %}
+      Monthly: **{{ cur.price | int }} kr/mnd**, Estimated yearly: **{{ (cur.price * 12) | int }} kr/år**
+      {%- endif %}
+
+      {% if ns.tiers %}
+      **All capacity tiers**
+      {% for t in ns.tiers %}
+      {%- set text = n(t.lo) ~ '–' ~ n(t.hi) ~ ' kWh/h' %}
+      {%- if t.price is not none %}
+      {%- set delta = (t.price - cur.price) | int if cur and cur.price is not none else none %}
+      {%- set label = '(current)' if loop.index0 == ns.active
+           else ('(same)' if delta == 0 else ('(' ~ ('+' if delta > 0 else '') ~ delta ~ ' kr/mnd)' if delta is not none else '')) %}
+      {%- set text = text ~ ' — ' ~ (t.price | int) ~ ' kr/mnd ' ~ label %}
+      {%- elif loop.index0 == ns.active %}
+      {%- set text = text ~ ' (current)' %}
+      {%- endif %}
+      - {{ ('**' ~ text ~ '**') if loop.index0 == ns.active else text }}
+      {%- endfor %}
+      {%- endif %}
+
+      **Peak hours this month**
+      {% for p in state_attr(cap, 'peaks') or [] %}
+      {%- set dt = as_local(as_datetime(p.start)) %}
+      {%- set days = (now().date() - dt.date()).days %}
+      - {{ '%.2f' % p.kwh }} kWh/h — {{ 'today' if days == 0 else ('yesterday' if days == 1 else days ~ ' days ago') }}, {{ dt.strftime('%d.%m.%Y') }} at **{{ dt.strftime('%H:%M') }}**
+      {%- else %}
+      No peak hours yet this month.
+      {%- endfor %}
+      {%- endif %}

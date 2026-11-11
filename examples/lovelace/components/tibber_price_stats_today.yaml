@@ -1,0 +1,27 @@
+type: grid
+columns: 3
+square: false
+cards:
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURHOME_today_lowest_price
+    variables:
+      label: Lowest
+      decimals: 2
+      unit: kr
+      secondary: '[[[ return variables.time(entity.attributes.at) ]]]'
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURHOME_today_average_price
+    variables:
+      label: Average
+      decimals: 2
+      unit: kr
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURHOME_today_highest_price
+    variables:
+      label: Highest
+      decimals: 2
+      unit: kr
+      secondary: '[[[ return variables.time(entity.attributes.at) ]]]'

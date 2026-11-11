@@ -1,0 +1,87 @@
+type: custom:vertical-stack-in-card
+cards:
+  - type: custom:button-card
+    template: tibber_stat
+    entity: sensor.YOURHOME_consumption_this_year
+    variables:
+      label: This year
+      icon: mdi:chart-bar
+      unit: kWh
+      secondary: |
+        [[[
+          const a = entity.attributes;
+          const s = (id, d) => variables.fmt(states[id]?.state, d);
+          const pct = (v) => v === null || v === undefined ? '–' : (v > 0 ? '+' : '') + variables.fmt(v, 1) + ' %';
+          return `Cost: ${s("sensor.YOURHOME_cost_this_year")} kr<br>
+            Expected for the whole year: ${s("sensor.YOURHOME_estimated_cost_this_year")} kr
+            (${s("sensor.YOURHOME_estimated_consumption_this_year")} kWh)<br>
+            Same period last year: ${variables.fmt(a.last_year_to_date_kwh)} kWh / ${variables.fmt(a.last_year_to_date_cost)} kr
+            (${pct(a.change_vs_last_year_pct)} kWh, ${pct(a.cost_change_vs_last_year_pct)} kr)`;
+        ]]]
+  - type: custom:apexcharts-card
+    hours_12: false
+    graph_span: 1y
+    span:
+      start: year
+    header:
+      show: true
+      show_states: false
+    apex_config:
+      legend:
+        show: true
+      xaxis:
+        labels:
+          format: MMM
+      chart:
+        height: 240
+        toolbar:
+          show: false
+        zoom:
+          enabled: false
+      grid:
+        borderColor: rgba(127,127,127,0.25)
+      plotOptions:
+        bar:
+          borderRadius: 3
+          columnWidth: 75%
+      dataLabels:
+        enabled: false
+    yaxis:
+      - id: value
+        min: 0
+        decimals: 0
+    series:
+      - type: column
+        entity: sensor.YOURHOME_consumption_this_year
+        name: Last year
+        unit: kWh
+        show:
+          legend_value: false
+        color: '#9e9e9e'
+        opacity: 0.6
+        yaxis_id: value
+        data_generator: |
+          // tibber: drop empty points
+          const points = (() => {
+            return (entity.attributes.last_year_series || []).map((i) => {
+              const d = new Date(i.start); d.setFullYear(d.getFullYear() + 1); d.setDate(15);
+              return [d.getTime(), i.kwh];
+            });
+          })();
+          return points.filter((p) => p[1] !== null && p[1] !== undefined);
+      - type: column
+        entity: sensor.YOURHOME_consumption_this_year
+        name: This year
+        unit: kWh
+        show:
+          legend_value: false
+        color: '#145c78'
+        yaxis_id: value
+        data_generator: |
+          // tibber: drop empty points
+          const points = (() => {
+            return (entity.attributes.series || []).map((i) => {
+              const d = new Date(i.start); d.setDate(15); return [d.getTime(), i.kwh];
+            });
+          })();
+          return points.filter((p) => p[1] !== null && p[1] !== undefined);
