@@ -25,12 +25,31 @@ The integration can't change anything in your Tibber account:
 
 ## Installation
 
-1. Copy `custom_components/tibber_app_bridge` to `<config>/custom_components/`
-   (or add this repository as a custom repository in HACS).
+### HACS (recommended)
+
+1. In Home Assistant, open **HACS**, click the **⋮** menu in the top right corner
+   and choose **Custom repositories**.
+2. Paste this URL into **Repository**, choose **Integration** as the type and
+   click **Add**:
+
+   ```text
+   https://github.com/IDmedia/tibber-app-bridge
+   ```
+
+3. Search for **Tibber App Bridge** in HACS, open it and click **Download**.
+4. Restart Home Assistant.
+
+### Manual
+
+1. Download the [latest version](https://github.com/IDmedia/tibber-app-bridge/archive/refs/heads/main.zip)
+   and copy `custom_components/tibber_app_bridge` to `<config>/custom_components/`.
 2. Restart Home Assistant.
-3. **Settings → Devices & services → Add integration → Tibber App Bridge**, and log
-   in with your Tibber app email and password. If the account has several homes,
-   pick one (add the integration again for each extra home).
+
+### Set up
+
+**Settings → Devices & services → Add integration → Tibber App Bridge**, and log
+in with your Tibber app email and password. If the account has several homes,
+pick one (add the integration again for each extra home).
 
 Requires Home Assistant 2025.11 or newer.
 
