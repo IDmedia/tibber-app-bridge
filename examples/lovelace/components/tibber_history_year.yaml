@@ -32,6 +32,13 @@ cards:
       xaxis:
         labels:
           format: MMM
+        tooltip:
+          enabled: false
+      # Last year's bars sit on this year's months, so the tooltip shows the
+      # month only (the series name says which year).
+      tooltip:
+        x:
+          format: MMMM
       chart:
         height: 240
         toolbar:
